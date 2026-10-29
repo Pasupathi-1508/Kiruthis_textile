@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Orders, GST Tax Invoices &amp; Live Tracking | KIRUTHIS MENS FASHIONS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+        .track-search-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 22px;
+            margin: 22px 0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+        }
+        .order-card-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .order-card-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 16px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .stepper-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin: 14px 0;
+        }
+        @media (max-width: 720px) {
+            .stepper-bar { grid-template-columns: 1fr; }
+        }
+        .step-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+        .step-pill.done {
+            color: #065f46;
+        }
+        .step-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .step-pill.done .step-dot {
+            background: #059669;
+            color: #ffffff;
+        }
+        .gst-bill-modal-box {
+            background: #ffffff;
+            border: 2px solid #0f172a;
+            border-radius: 16px;
+            max-width: 860px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 28px;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff; }
+            .modal-backdrop { position: static; background: none; padding: 0; }
+            .gst-bill-modal-box { border: 1px solid #000; max-height: none; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Promo Bar -->
+    <div class="top-promo-strip no-print">
+        <div class="container top-promo-inner">
+            <div class="top-promo-left">
+                <span class="pulse-dot"></span>
+                <span><strong>MY ORDERS &amp; OFFICIAL GST BILLS:</strong> Re-open &amp; print your GST Tax Invoice (<code>33JODPK0345L1ZW</code>) anytime!</span>
+            </div>
+            <div class="top-promo-right">
+                <a href="/" style="color: #fde047; text-decoration: none; font-weight: 700;">← Back to Showroom Catalogue</a>
+                <span class="divider">|</span>
+                <a href="/admin-dashboard.html" style="color: #4ade80; text-decoration: none; font-weight: 700;">📊 Open Seller Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header no-print">
+        <div class="container header-inner">
+            <a href="/" class="brand-logo-wrap">
+                <div class="brand-text-block">
+                    <div class="brand-title-en">K<span class="orange-i">I</span>RUTHIS</div>
+                    <div class="brand-subtitle-row">
+                        <span class="bowtie-icon">⋈</span>
+                        <span class="brand-mens-fashions">MENS FASHIONS • TIRUPUR</span>
+                    </div>
+                    <div class="brand-tamil-text">கிருத்திஸ் மென்ஸ் பேஷன்ஸ் — Order &amp; GST Invoice Portal</div>
+                </div>
+            </a>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="/" class="header-action-btn" style="text-decoration: none;">
+                    <span class="action-label-small">Continue Shopping</span>
+                    <span class="action-label-bold">🛍️ Showroom Catalogue</span>
+                </a>
+                <a href="/cart-checkout.html" class="header-action-btn" style="text-decoration: none;">
+                    <span class="action-label-small">Go to Bag</span>
+                    <span class="action-label-bold">🛒 Checkout Page</span>
+                </a>
+                <a href="/admin-dashboard.html" class="cart-trigger-btn" style="text-decoration: none;">
+                    <span>📊 Seller Admin Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container no-print" style="padding-bottom: 48px;">
+        <!-- Search / Filter Bar -->
+        <div class="track-search-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                <div>
+                    <h1 style="font-size: 20px; font-weight: 800; color: #0f172a;">🧾 Your Saved Orders &amp; Printable GST Tax Invoices</h1>
+                    <p style="font-size: 12.5px; color: #475569;">Every order placed is stored in MySQL (`kiruthis_fashions_db`). Click <strong>"🖨️ Open &amp; Print GST Bill"</strong> on any order below:</p>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <input type="text" id="orderLookupInput" placeholder="Search Order # (e.g. KMF-2026) or Phone..."
+                        style="padding: 9px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; min-width: 250px;" />
+                    <button type="button" id="orderLookupBtn" class="btn-gold">🔍 Filter</button>
+                    <button type="button" id="orderResetBtn" class="btn-outline-sm">Show All MySQL Orders</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List Container -->
+        <div id="ordersListContainer">
+            <p style="padding: 24px; text-align: center; color: #64748b;">Loading your saved orders &amp; GST bills from MySQL...</p>
+        </div>
+    </main>
+
+    <!-- PRINTABLE GST BILL MODAL -->
+    <div id="gstBillModalBackdrop" class="modal-backdrop hidden">
+        <div class="gst-bill-modal-box" id="gstBillModalBody">
+            <!-- Populated dynamically when user clicks "Open & Print GST Bill" -->
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            let allOrders = [];
+
+            async function fetchOrdersFromMySQL() {
+                try {
+                    const resp = await fetch('/api/v1/orders/all');
+                    allOrders = await resp.json();
+                    renderOrdersList(allOrders);
+                } catch (e) {
+                    document.getElementById('ordersListContainer').innerHTML =
+                        '<p style="color:#dc2626; padding:20px;">Could not load orders. Make sure Spring Boot is running on port 8080.</p>';
+                }
+            }
+
+            function renderOrdersList(list) {
+                const container = document.getElementById('ordersListContainer');
+                if (!list || list.length === 0) {
+                    container.innerHTML = `
+                        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:36px; text-align:center;">
+                            <h3 style="font-size:17px; font-weight:800;">No Orders Found in MySQL Yet</h3>
+                            <p style="font-size:13px; color:#64748b; margin-top:6px;">Add garments from the showroom catalogue and place an order to generate your GST Tax Invoice.</p>
+                            <a href="/" class="btn-gold" style="display:inline-block; margin-top:12px; text-decoration:none;">🛍️ Browse Showroom Catalogue</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const steps = ['CONFIRMED', 'PACKED', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+                const stepNames = ['1. Confirmed', '2. Packed & Billed', '3. Shipped', '4. Out for Delivery', '5. Delivered'];
+
+                container.innerHTML = list.map(order => {
+                    let activeIdx = steps.indexOf(order.orderStatus);
+                    if (activeIdx === -1) activeIdx = 0;
+
+                    const stepperHtml = stepNames.map((name, idx) => `
+                        <div class="step-pill ${idx <= activeIdx ? 'done' : ''}">
+                            <span class="step-dot">${idx <= activeIdx ? '✓' : (idx + 1)}</span>
+                            <span>${name}</span>
+                        </div>
+                    `).join('');
+
+                    const itemsHtml = (order.items || []).map(it => `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13px;">
+                            <div>
+                                <strong>${it.productTitle}</strong>
+                                <span style="display:block; font-size:11.5px; color:#64748b;">SKU: ${it.skuCode} • Color: ${it.colorName} • Size: ${it.sizeLabel} • HSN: ${it.hsnCode} • Qty: ${it.quantity}</span>
+                            </div>
+                            <strong style="color:#0f172a;">₹${Number(it.lineTotal).toFixed(2)}</strong>
+                        </div>
+                    `).join('');
+
+                    const freeGiftBanner = order.freeGiftEligible ? `
+                        <div style="background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700; margin-top:8px;">
+                            🎁 Showroom Free Gift Included: ${order.freeGiftChoice === 'FREE_BRANDED_SHORTS' ? 'FREE Branded Casual Shorts' : 'FREE Branded Round Neck T-Shirt'} (Size ${order.freeGiftSize}) + Assured Gift (₹0)
+                        </div>
+                    ` : '';
+
+                    return `
+                        <div class="order-card-box">
+                            <div class="order-card-header">
+                                <div>
+                                    <span style="background:#facc15; color:#0f172a; font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px;">
+                                        ${order.orderStatus}
+                                    </span>
+                                    <strong style="font-size:17px; margin-left:8px;">Order #${order.orderNumber}</strong>
+                                    <span style="font-size:12px; color:#cbd5e1; margin-left:8px;">(GST Invoice #${order.invoiceNumber})</span>
+                                    <p style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+                                        Customer: <strong>${order.customerName}</strong> (+91 ${order.customerPhone}) • Ship To: ${order.shippingCity}, ${order.shippingState} - ${order.shippingPincode}
+                                    </p>
+                                </div>
+                                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                                    <button type="button" class="btn-gold" data-open-gst="${order.orderNumber}">
+                                        🧾 Open &amp; Print GST Bill (${order.invoiceNumber})
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div style="padding: 18px 22px;">
+                                <!-- 5-Step Progress Bar -->
+                                <div class="stepper-bar">${stepperHtml}</div>
+
+                                <!-- Courier & Payment Details -->
+                                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12.5px; color:#334155; margin-bottom:10px;">
+                                    <span><strong>Courier Partner:</strong> ${order.courierName || 'Pending Dispatch'} (AWB: <code>${order.awbTrackingNumber || 'Pending'}</code>)</span>
+                                    <span><strong>Payment:</strong> ${order.paymentMode} (${order.paymentStatus}) • <strong>Grand Total: ₹${Number(order.grandTotal).toLocaleString('en-IN')}</strong></span>
+                                </div>
+
+                                ${itemsHtml}
+                                ${freeGiftBanner}
+
+                                <!-- Tracking Checkpoints -->
+                                <div style="margin-top:14px; background:#f8fafc; padding:12px; border-radius:10px; border:1px solid #e2e8f0;">
+                                    <strong style="font-size:11.5px; text-transform:uppercase; color:#475569;">Live Showroom &amp; Courier Checkpoints:</strong>
+                                    <div style="margin-top:6px; display:flex; flex-direction:column; gap:5px; font-size:12px;">
+                                        ${(order.trackingEvents || []).map(ev => `
+                                            <div>• <strong>[${ev.statusCode} — ${ev.locationHub}]</strong>: ${ev.remarks}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                container.querySelectorAll('[data-open-gst]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const ordNo = btn.getAttribute('data-open-gst');
+                        const target = allOrders.find(o => o.orderNumber === ordNo);
+                        if (target) openPrintableGstModal(target);
+                    });
+                });
+            }
+
+            function openPrintableGstModal(order) {
+                const modalBackdrop = document.getElementById('gstBillModalBackdrop');
+                const body = document.getElementById('gstBillModalBody');
+                const isIntraTN = order.shippingStateCode === '33';
+
+                const giftLabel = order.freeGiftChoice === 'FREE_BRANDED_SHORTS'
+                    ? 'FREE Branded Casual Shorts (Size ' + order.freeGiftSize + ') + Assured Showroom Gift'
+                    : 'FREE Branded Round Neck T-Shirt (Size ' + order.freeGiftSize + ') + Assured Showroom Gift';
+
+                const rowsHtml = (order.items || []).map((it, idx) => `
+                    <tr style="border-bottom: 1px solid #cbd5e1;">
+                        <td style="padding: 8px;">${idx + 1}</td>
+                        <td style="padding: 8px;">
+                            <strong>${it.productTitle}</strong><br/>
+                            <span style="font-size: 11px; color: #475569;">SKU: ${it.skuCode} • Color: ${it.colorName} • Size: ${it.sizeLabel}</span>
+                        </td>
+                        <td style="padding: 8px; text-align: center;">${it.hsnCode}</td>
+                        <td style="padding: 8px; text-align: center; font-weight: 700;">${it.quantity}</td>
+                        <td style="padding: 8px; text-align: right;">₹${Number(it.taxableValue).toFixed(2)}</td>
+                        <td style="padding: 8px; text-align: right;">
+                            ${isIntraTN
+                                ? `CGST: ₹${Number(it.cgstAmount).toFixed(2)}<br/>SGST: ₹${Number(it.sgstAmount).toFixed(2)}`
+                                : `IGST: ₹${Number(it.igstAmount).toFixed(2)}`}
+                            <small style="display:block; color:#64748b;">(${it.gstPercentage}%)</small>
+                        </td>
+                        <td style="padding: 8px; text-align: right; font-weight: 800;">₹${Number(it.lineTotal).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+                const freeGiftRowHtml = order.freeGiftEligible ? `
+                    <tr style="border-bottom: 1px solid #cbd5e1; background: #ecfdf5; color: #065f46;">
+                        <td style="padding: 8px;">🎁</td>
+                        <td style="padding: 8px;">
+                            <strong>${giftLabel}</strong><br/>
+                            <span style="font-size: 11px;">Kiruthis Showroom Mega Offer on Orders ≥ ₹2,000</span>
+                        </td>
+                        <td style="padding: 8px; text-align: center;">6109</td>
+                        <td style="padding: 8px; text-align: center; font-weight: 700;">1</td>
+                        <td style="padding: 8px; text-align: right;">₹0.00</td>
+                        <td style="padding: 8px; text-align: right;">FREE PROMO</td>
+                        <td style="padding: 8px; text-align: right; font-weight: 800;">₹0.00</td>
+                    </tr>
+                ` : '';
+
+                body.innerHTML = `
+                    <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #e2e8f0;">
+                        <strong style="font-size:15px; color:#0f172a;">🧾 Official GST Tax Invoice #${order.invoiceNumber}</strong>
+                        <div style="display:flex; gap:10px;">
+                            <button type="button" onclick="window.print()" class="btn-gold">🖨️ Print / Save PDF</button>
+                            <button type="button" id="closeGstModalBtn" class="btn-outline-sm">✕ Close</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; border-bottom: 2px solid #0f172a; padding-bottom: 16px;">
+                        <div>
+                            <div style="font-family: 'Cinzel', serif; font-size: 22px; font-weight: 800; color: #0f172a;">
+                                KIRUTHIS MENS FASHIONS
+                            </div>
+                            <div style="font-family: 'Noto Sans Tamil', sans-serif; font-size: 12px; color: #1e3a8a; font-weight: 700;">
+                                கிருத்திஸ் மென்ஸ் பேஷன்ஸ் — The Trendy Store (MENS | KIDS | WOMENS)
+                            </div>
+                            <p style="font-size: 12px; color: #334155; margin-top: 4px;">
+                                Amman Nagar Bus Stop, Ganapathipalayam Road, Chennimalaipalayam, Tirupur - 641 605, Tamil Nadu<br/>
+                                <strong>GSTIN:</strong> 33JODPK0345L1ZW (State Code: 33) • <strong>WhatsApp:</strong> +91 80988 73594 / +91 86104 26958
+                            </p>
+                        </div>
+                        <div style="text-align: right; font-size: 12.5px;">
+                            <span style="background: #0f172a; color: #facc15; font-weight: 800; padding: 4px 10px; border-radius: 6px; display: inline-block;">
+                                TAX INVOICE
+                            </span>
+                            <p style="margin-top: 6px;"><strong>Invoice No:</strong> ${order.invoiceNumber}</p>
+                            <p><strong>Order No:</strong> ${order.orderNumber}</p>
+                            <p><strong>Payment:</strong> ${order.paymentMode} (${order.paymentStatus})</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid #cbd5e1; font-size: 12.5px;">
+                        <div>
+                            <strong style="color: #64748b; text-transform: uppercase; font-size: 11px;">Billed &amp; Shipped To:</strong>
+                            <p style="font-size: 14px; font-weight: 800; margin-top: 2px;">${order.customerName}</p>
+                            <p>${order.shippingAddressLine1}${order.shippingLandmark ? ', ' + order.shippingLandmark : ''}</p>
+                            <p><strong>${order.shippingCity}, ${order.shippingState} - ${order.shippingPincode}</strong> (State Code: ${order.shippingStateCode})</p>
+                            <p>Mobile: <strong>+91 ${order.customerPhone}</strong></p>
+                        </div>
+                        <div style="text-align: right;">
+                            <strong style="color: #64748b; text-transform: uppercase; font-size: 11px;">Dispatch &amp; Tax Regime:</strong>
+                            <p style="margin-top: 2px;"><strong>Tax Type:</strong> ${isIntraTN ? 'Intra-State Tamil Nadu (CGST + SGST)' : 'Inter-State (IGST)'}</p>
+                            <p><strong>Courier AWB:</strong> ${order.awbTrackingNumber || 'Pending'}</p>
+                            <p><strong>Parcel Weight:</strong> ${order.totalWeightGrams} grams</p>
+                        </div>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 12px;">
+                        <thead>
+                            <tr style="background: #f1f5f9; border-bottom: 2px solid #0f172a;">
+                                <th style="padding: 8px; text-align: left;">#</th>
+                                <th style="padding: 8px; text-align: left;">Garment Description &amp; SKU</th>
+                                <th style="padding: 8px; text-align: center;">HSN</th>
+                                <th style="padding: 8px; text-align: center;">Qty</th>
+                                <th style="padding: 8px; text-align: right;">Taxable</th>
+                                <th style="padding: 8px; text-align: right;">GST Split</th>
+                                <th style="padding: 8px; text-align: right;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                            ${freeGiftRowHtml}
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: 18px; padding-top: 14px; border-top: 2px solid #0f172a; font-size: 13px;">
+                        <div style="font-size: 11.5px; color: #475569; max-width: 420px;">
+                            <strong>Showroom Declaration:</strong> Certified that the particulars given above are true and correct. Eligible for 7-Day Doorstep Size Exchange with original brand tags intact.
+                        </div>
+                        <div style="min-width: 260px;">
+                            <div class="summary-line"><span>Total Taxable Value:</span> <strong>₹${Number(order.totalTaxableAmount).toFixed(2)}</strong></div>
+                            ${isIntraTN ? `
+                            <div class="summary-line"><span>Total CGST:</span> <span>₹${Number(order.cgstAmount).toFixed(2)}</span></div>
+                            <div class="summary-line"><span>Total SGST:</span> <span>₹${Number(order.sgstAmount).toFixed(2)}</span></div>` : `
+                            <div class="summary-line"><span>Total IGST:</span> <span>₹${Number(order.igstAmount).toFixed(2)}</span></div>`}
+                            ${Number(order.codHandlingFee) > 0 ? `
+                            <div class="summary-line"><span>COD Handling Fee:</span> <span>₹${Number(order.codHandlingFee).toFixed(2)}</span></div>` : ''}
+                            <div class="summary-line summary-total" style="margin-top: 6px;">
+                                <span>Grand Total:</span>
+                                <span>₹${Number(order.grandTotal).toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('closeGstModalBtn').addEventListener('click', () => {
+                    modalBackdrop.classList.add('hidden');
+                });
+                modalBackdrop.classList.remove('hidden');
+            }
+
+            document.getElementById('orderLookupBtn').addEventListener('click', () => {
+                const q = document.getElementById('orderLookupInput').value.trim().toLowerCase();
+                if (!q) {
+                    renderOrdersList(allOrders);
+                    return;
+                }
+                const filtered = allOrders.filter(o =>
+                    (o.orderNumber && o.orderNumber.toLowerCase().includes(q)) ||
+                    (o.invoiceNumber && o.invoiceNumber.toLowerCase().includes(q)) ||
+                    (o.customerPhone && o.customerPhone.toLowerCase().includes(q)) ||
+                    (o.customerName && o.customerName.toLowerCase().includes(q))
+                );
+                renderOrdersList(filtered);
+            });
+
+            document.getElementById('orderResetBtn').addEventListener('click', () => {
+                document.getElementById('orderLookupInput').value = '';
+                renderOrdersList(allOrders);
+            });
+
+            document.addEventListener('DOMContentLoaded', fetchOrdersFromMySQL);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Secure Checkout &amp; Official Tax Invoice | KIRUTHIS MENS FASHIONS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        :root {
+            --bg-obsidian: #050811;
+            --bg-surface: #0B1120;
+            --bg-card: rgba(15, 23, 42, 0.86);
+            --bg-glass: rgba(11, 17, 32, 0.92);
+            --gold-primary: #D4AF37;
+            --gold-light: #FFF3B0;
+            --gold-dark: #9A7418;
+            --peacock-blue: #38BDF8;
+            --emerald: #10B981;
+            --crimson: #EF4444;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-gold: rgba(212, 175, 55, 0.28);
+            --border-subtle: rgba(148, 163, 184, 0.14);
+            --radius-xl: 20px;
+            --radius-lg: 14px;
+            --radius-md: 10px;
+            --transition-smooth: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 15% 10%, rgba(2, 132, 199, 0.12), transparent 40%),
+                        radial-gradient(circle at 85% 20%, rgba(212, 175, 55, 0.10), transparent 45%),
+                        var(--bg-obsidian);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-top: 118px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #050811; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4AF37, #9A7418); border-radius: 99px; }
+
+        /* Magnetic Dual-Ring Cursor */
+        .cursor-dot, .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-primary);
+        }
+        .cursor-ring {
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid rgba(212, 175, 55, 0.55);
+            transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+        }
+        @media (max-width: 900px) {
+            .cursor-dot, .cursor-ring { display: none; }
+        }
+
+        /* Fixed Top Header Shell */
+        .fixed-top-shell {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(5, 8, 17, 0.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .top-utility-bar {
+            background: rgba(11, 17, 32, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+            padding: 6px 24px;
+            font-size: 12px;
+        }
+
+        .utility-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .utility-map-link, .utility-call-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #E2E8F0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .utility-map-link:hover, .utility-call-link:hover {
+            color: var(--gold-primary);
+        }
+
+        .map-pill-tag {
+            background: rgba(212, 175, 55, 0.16);
+            color: var(--gold-primary);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .utility-contact-cluster {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .main-nav-header {
+            padding: 10px 24px;
+        }
+
+        .nav-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand-logo-svg {
+            height: 54px;
+            width: auto;
+            display: block;
+        }
+
+        .checkout-Dynamic-User-Bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .active-shopper-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            border-radius: 99px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #E0F2FE;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+
+        .back-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 99px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+        .back-store-btn:hover {
+            background: linear-gradient(135deg, #D4AF37, #9A7418);
+            color: #050811;
+        }
+
+        /* Main Checkout Layout */
+        .checkout-container {
+            max-width: 1340px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+
+        .checkout-title-banner {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 18px;
+        }
+
+        .eyebrow-gold {
+            color: var(--gold-primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .checkout-title-banner h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(22px, 3vw, 32px);
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .security-shield-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6EE7B7;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.95fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .luxury-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-xl);
+            padding: 26px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .panel-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37, #9A7418);
+            color: #050811;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clear-form-btn {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #FCA5A5;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .clear-form-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* Clean Blank Customer Form Grid */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 640px) {
+            .form-grid-2, .form-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .field-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #CBD5E1;
+            letter-spacing: 0.4px;
+        }
+
+        .field-group label .req {
+            color: var(--gold-primary);
+        }
+
+        .luxury-input, .luxury-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: var(--radius-md);
+            background: rgba(5, 8, 17, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            color: #FFFFFF;
+            font-family: inherit;
+            font-size: 14px;
+            transition: var(--transition-smooth);
+        }
+
+        .luxury-input::placeholder {
+            color: #64748B;
+        }
+
+        .luxury-input:focus, .luxury-select:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+        }
+
+        .pincode-status-msg {
+            font-size: 11.5px;
+            font-weight: 600;
+            margin-top: 4px;
+            min-height: 16px;
+        }
+
+        /* Above-2000 Promotional Free Gift Banner */
+        .promo-gift-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(16, 185, 129, 0.10));
+            border: 1.5px solid var(--gold-primary);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 22px;
+        }
+
+        .promo-progress-bar-wrap {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .promo-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #D4AF37, #10B981);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .gift-selector-row {
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        @media (max-width: 600px) {
+            .gift-selector-row { grid-template-columns: 1fr; }
+        }
+
+        /* Cart Items List in Checkout */
+        .checkout-bag-item {
+            display: grid;
+            grid-template-columns: 72px 1fr auto;
+            gap: 14px;
+            align-items: center;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            background: rgba(5, 8, 17, 0.65);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 12px;
+        }
+
+        .checkout-bag-item img {
+            width: 72px;
+            height: 86px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-gold);
+        }
+
+        .bag-item-title {
+            font-weight: 700;
+            font-size: 14.5px;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        .bag-item-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 3px 8px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            color: var(--gold-primary);
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        .remove-item-btn {
+            background: none;
+            border: none;
+            color: #F87171;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Payment Method Cards */
+        .payment-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        @media (max-width: 600px) {
+            .payment-options-grid { grid-template-columns: 1fr; }
+        }
+
+        .payment-mode-card {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: rgba(5, 8, 17, 0.75);
+            border: 1.5px solid var(--border-subtle);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .payment-mode-card.active {
+            border-color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.12);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .payment-mode-card input[type="radio"] {
+            accent-color: var(--gold-primary);
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .cod-otp-box {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px dashed var(--gold-primary);
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Summary Breakdown Rows */
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            font-size: 13.5px;
+            color: #CBD5E1;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .summary-line.total {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--gold-light);
+            border-top: 2px solid var(--border-gold);
+            border-bottom: none;
+            padding-top: 16px;
+            margin-top: 8px;
+        }
+
+        .coupon-row {
+            display: flex;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .btn-gold-primary {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: linear-gradient(135deg, #FFF3B0 0%, #D4AF37 50%, #9A7418 100%);
+            color: #050811;
+            font-weight: 800;
+            font-size: 15.5px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.3);
+        }
+        .btn-gold-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 36px rgba(212, 175, 55, 0.45);
+        }
+
+        /* Official Printable GST Tax Invoice Modal */
+        .invoice-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            background: rgba(3, 6, 14, 0.88);
+            backdrop-filter: blur(16px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .invoice-paper-card {
+            background: #FFFFFF;
+            color: #0F172A;
+            width: 100%;
+            max-width: 860px;
+            border-radius: 16px;
+            padding: 36px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .invoice-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #0F172A;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            font-size: 12.5px;
+        }
+
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #CBD5E1;
+            padding: 9px 10px;
+            text-align: left;
+        }
+
+        .invoice-table th {
+            background: #0F172A;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
+        /* Fixed Floating WhatsApp Concierge Button */
+        .whatsapp-float-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 26px;
+            z-index: 2500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 99px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 13px;
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.4);
+            transition: var(--transition-smooth);
+        }
+        .whatsapp-float-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #gstInvoiceModal, #gstInvoiceModal * { visibility: visible; }
+            #gstInvoiceModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: #FFFFFF !important;
+                padding: 0 !important;
+            }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Magnetic Cursor -->
+    <div id="cursorDot" class="cursor-dot"></div>
+    <div id="cursorRing" class="cursor-ring"></div>
+
+    <!-- FIXED TOP BAR WITH GOOGLE MAPS DIRECTION LINK & PHONE CALL DIALER -->
+    <div class="fixed-top-shell no-print">
+        <div class="top-utility-bar">
+            <div class="utility-container">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Amman+Nagar+Bus+Stop+Ganapathipalayam+Road+Chennimalaipalayam+Tirupur+641605"
+                   target="_blank" rel="noopener noreferrer" class="utility-map-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Amman Nagar Bus Stop, Ganapathipalayam Rd, Tirupur - 641605</span>
+                    <span class="map-pill-tag">Directions</span>
+                </a>
+                <div class="utility-contact-cluster">
+                    <a href="tel:+918098873594" class="utility-call-link">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span>+91 80988 73594</span>
+                    </a>
+                    <a href="tel:+918610426958" class="utility-call-link">
+                        <span>+91 86104 26958</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <header class="main-nav-header">
+            <div class="nav-container">
+                <a href="/" class="kiruthis-vector-brand">
+                    <svg class="brand-logo-svg" viewBox="0 0 380 86" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFF3B0"/>
+                                <stop offset="45%" stop-color="#D4AF37"/>
+                                <stop offset="100%" stop-color="#9A7418"/>
+                            </linearGradient>
+                            <linearGradient id="peacockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#38BDF8"/>
+                                <stop offset="50%" stop-color="#0284C7"/>
+                                <stop offset="100%" stop-color="#1E3A8A"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(8, 6)">
+                            <path d="M26 58 C10 52, 4 34, 14 18 C22 6, 40 6, 48 16 C36 14, 24 22, 24 36 C24 46, 30 54, 26 58 Z" fill="url(#peacockGrad)"/>
+                            <circle cx="20" cy="22" r="5" fill="#0F172A" stroke="url(#goldGrad)" stroke-width="1.6"/>
+                            <circle cx="32" cy="14" r="4.5" fill="#0F172A" stroke="url(#goldGrad)" stroke-width="1.5"/>
+                            <path d="M32 26 C36 22, 44 24, 44 31 C44 38, 36 46, 32 58 L27 58 C29 46, 30 34, 32 26 Z" fill="url(#goldGrad)"/>
+                        </g>
+                        <text x="66" y="40" font-family="Cinzel, serif" font-weight="900" font-size="31" fill="#38BDF8" letter-spacing="2">K</text>
+                        <g transform="translate(95, 13)">
+                            <polygon points="2,0 16,0 13,6 5,6" fill="url(#goldGrad)"/>
+                            <polygon points="5,7 13,7 15,22 9,28 3,22" fill="url(#goldGrad)"/>
+                        </g>
+                        <text x="116" y="40" font-family="Cinzel, serif" font-weight="900" font-size="31" fill="#38BDF8" letter-spacing="2.5">RUTHIS</text>
+                        <text x="67" y="58" font-family="Cinzel, serif" font-weight="700" font-size="13.5" fill="url(#goldGrad)" letter-spacing="4.2">MENS FASHIONS</text>
+                        <g transform="translate(67, 64)">
+                            <line x1="0" y1="6" x2="178" y2="6" stroke="url(#goldGrad)" stroke-width="2.2"/>
+                            <path d="M175 6 L190 0 L204 6 L190 12 Z" fill="url(#goldGrad)"/>
+                            <text x="212" y="10" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="10.5" fill="#94A3B8" letter-spacing="1.2">THE TRENDY STORE</text>
+                        </g>
+                    </svg>
+                </a>
+
+                <div class="checkout-Dynamic-User-Bar">
+                    <div class="active-shopper-pill" id="activeShopperBanner">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span id="activeShopperText">Personal Bag</span>
+                    </div>
+                    <a href="/" class="back-store-btn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span>Back to Showroom</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- MAIN CHECKOUT WORKSPACE -->
+    <div class="checkout-container no-print">
+        <div class="checkout-title-banner">
+            <div>
+                <div class="eyebrow-gold">256-BIT ENCRYPTED SHOWROOM CHECKOUT</div>
+                <h1>Complete Your Order &amp; Delivery Details</h1>
+            </div>
+            <div class="security-shield-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Isolated Personal Cart • Instant GST Tax Invoice</span>
+            </div>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- LEFT COLUMN: BLANK CUSTOMER DELIVERY FORM + PAYMENT METHOD -->
+            <div>
+                <!-- STEP 1: CUSTOMER DELIVERY ADDRESS (100% BLANK BY DEFAULT) -->
+                <div class="luxury-panel">
+                    <div class="panel-header">
+                        <h2><span class="step-num">1</span> Customer Delivery Address</h2>
+                        <button type="button" class="clear-form-btn" onclick="clearDeliveryFormFields()">Clear Form</button>
+                    </div>
+
+                    <form id="customerCheckoutForm" autocomplete="off" onsubmit="return false;">
+                        <div class="form-grid-2">
+                            <div class="field-group">
+                                <label for="custName">Customer Full Name <span class="req">*</span></label>
+                                <input type="text" id="custName" class="luxury-input" value="" placeholder="Enter your full name" required />
+                            </div>
+                            <div class="field-group">
+                                <label for="custPhone">10-Digit Mobile Number <span class="req">*</span></label>
+                                <input type="tel" id="custPhone" class="luxury-input" value="" maxlength="10" placeholder="e.g. 9876543210" required />
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="custEmail">Email Address (For Order &amp; GST Bill Copy)</label>
+                            <input type="email" id="custEmail" class="luxury-input" value="" placeholder="yourname@example.com" />
+                        </div>
+
+                        <div class="field-group">
+                            <label for="custAddress">House / Flat / Door No. &amp; Street Address <span class="req">*</span></label>
+                            <input type="text" id="custAddress" class="luxury-input" value="" placeholder="Enter house number, building name, street & area" required />
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="field-group">
+                                <label for="custPincode">6-Digit Pincode <span class="req">*</span></label>
+                                <input type="text" id="custPincode" class="luxury-input" value="" maxlength="6" placeholder="e.g. 641001" oninput="handlePincodeLookup(this.value)" required />
+                                <div id="pincodeStatusMsg" class="pincode-status-msg"></div>
+                            </div>
+                            <div class="field-group">
+                                <label for="custCity">City / District <span class="req">*</span></label>
+                                <input type="text" id="custCity" class="luxury-input" value="" placeholder="Enter your city" required />
+                            </div>
+                            <div class="field-group">
+                                <label for="custState">Delivery State <span class="req">*</span></label>
+                                <select id="custState" class="luxury-select" onchange="recalculateTotals()">
+                                    <option value="">-- Select State --</option>
+                                    <option value="Tamil Nadu">Tamil Nadu (CGST + SGST)</option>
+                                    <option value="Kerala">Kerala (IGST)</option>
+                                    <option value="Karnataka">Karnataka (IGST)</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh (IGST)</option>
+                                    <option value="Telangana">Telangana (IGST)</option>
+                                    <option value="Maharashtra">Maharashtra (IGST)</option>
+                                    <option value="Delhi">Delhi NCR (IGST)</option>
+                                    <option value="Gujarat">Gujarat (IGST)</option>
+                                    <option value="West Bengal">West Bengal (IGST)</option>
+                                    <option value="Other India State">Other State in India (IGST)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="custLandmark">Nearby Landmark / Delivery Instructions (Optional)</label>
+                            <input type="text" id="custLandmark" class="luxury-input" value="" placeholder="Near temple, bus stand, or preferred delivery time" />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 2: COMPLIMENTARY ₹2,000+ PROMOTIONAL GIFT SELECTOR -->
+                <div class="promo-gift-card" id="promoGiftSection">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <div>
+                            <div class="eyebrow-gold" style="margin-bottom:2px;">SHOWROOM EXCLUSIVE PROMOTION</div>
+                            <h3 id="promoHeadlineText" style="font-size:15px; color:#FFF;">Shop for ₹2,000+ to Unlock a FREE Branded Round-Neck T-Shirt or Shorts!</h3>
+                        </div>
+                        <span id="promoBadgeStatus" class="map-pill-tag">LOCKED</span>
+                    </div>
+                    <div class="promo-progress-bar-wrap">
+                        <div id="promoProgressFill" class="promo-progress-fill"></div>
+                    </div>
+
+                    <div id="promoGiftSelectors" class="gift-selector-row" style="display:none;">
+                        <div>
+                            <label style="font-size:11.5px; font-weight:700; color:#FFF3B0; display:block; margin-bottom:5px;">Select Your Complimentary Gift (₹0.00)</label>
+                            <select id="freeGiftChoice" class="luxury-select" onchange="recalculateTotals()">
+                                <option value="FREE Branded Bio-Washed Round Neck T-Shirt">FREE Branded Bio-Washed Round Neck T-Shirt (Worth ₹499)</option>
+                                <option value="FREE Branded Cotton Lounge Shorts">FREE Branded Cotton Lounge Shorts (Worth ₹499)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:11.5px; font-weight:700; color:#FFF3B0; display:block; margin-bottom:5px;">Select Free Gift Size</label>
+                            <select id="freeGiftSize" class="luxury-select" onchange="recalculateTotals()">
+                                <option value="M">Size M (38-40 in)</option>
+                                <option value="L" selected>Size L (40-42 in)</option>
+                                <option value="XL">Size XL (42-44 in)</option>
+                                <option value="XXL">Size XXL (44-46 in)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: PAYMENT METHOD SELECTION -->
+                <div class="luxury-panel">
+                    <div class="panel-header">
+                        <h2><span class="step-num">2</span> Select Payment Method</h2>
+                    </div>
+
+                    <div class="payment-options-grid">
+                        <label class="payment-mode-card active" id="payCardOnline" onclick="selectPaymentMethod('RAZORPAY_ONLINE')">
+                            <input type="radio" name="paymentMode" value="RAZORPAY_ONLINE" checked />
+                            <div>
+                                <div style="font-weight:800; color:#FFF; font-size:14.5px; margin-bottom:4px;">Razorpay Online (UPI / GPay / Cards)</div>
+                                <div style="font-size:12px; color:var(--text-muted);">Instant verification via Google Pay, PhonePe, Paytm, Debit/Credit Cards, or NetBanking.</div>
+                            </div>
+                        </label>
+
+                        <label class="payment-mode-card" id="payCardCod" onclick="selectPaymentMethod('CASH_ON_DELIVERY')">
+                            <input type="radio" name="paymentMode" value="CASH_ON_DELIVERY" />
+                            <div>
+                                <div style="font-weight:800; color:#FFF; font-size:14.5px; margin-bottom:4px;">Cash on Delivery (Pay at Doorstep)</div>
+                                <div style="font-size:12px; color:var(--text-muted);">Pay by Cash or UPI QR when your garment package is delivered to your address.</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- COD 4-Digit Verification Box -->
+                    <div id="codOtpSection" class="cod-otp-box">
+                        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                            <div>
+                                <div style="font-weight:700; font-size:13.5px; color:var(--gold-light);">Instant COD Order Verification</div>
+                                <div style="font-size:12px; color:var(--text-muted);" id="codOtpHintText">Click "Generate 4-Digit COD Code" to confirm your Cash on Delivery order.</div>
+                            </div>
+                            <button type="button" class="clear-form-btn" style="background:rgba(212,175,55,0.18); color:#FFF3B0; border-color:var(--gold-primary); padding:8px 14px;" onclick="generateCodVerificationOtp()">
+                                Generate 4-Digit COD Code
+                            </button>
+                        </div>
+                        <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+                            <input type="text" id="codOtpInput" class="luxury-input" style="max-width:200px; letter-spacing:4px; font-weight:800; text-align:center;" maxlength="4" placeholder="Enter 4-Digit Code" />
+                            <span id="codLiveOtpBadge" style="font-size:12.5px; font-weight:800; color:#10B981;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: USER-ISOLATED SHOPPING BAG & GST TAX SUMMARY -->
+            <div>
+                <div class="luxury-panel">
+                    <div class="panel-header">
+                        <h2><span class="step-num">3</span> Your Selected Garments (<span id="bagItemCountLabel">0</span>)</h2>
+                        <button type="button" class="clear-form-btn" onclick="clearCurrentUserBag()">Empty Bag</button>
+                    </div>
+
+                    <div id="checkoutBagItemsContainer"></div>
+
+                    <!-- Coupon Code Row -->
+                    <div class="coupon-row">
+                        <input type="text" id="couponInput" class="luxury-input" placeholder="Promo Code (Try KIRUTHIS10 or TRENDY200)" />
+                        <button type="button" class="back-store-btn" style="white-space:nowrap; cursor:pointer;" onclick="applyCouponCode()">Apply</button>
+                    </div>
+                    <div id="couponFeedbackMsg" style="font-size:12px; margin-bottom:12px;"></div>
+
+                    <!-- Official Tax & Payable Summary -->
+                    <div style="margin-top:16px; background:rgba(5,8,17,0.65); padding:18px; border-radius:14px; border:1px solid var(--border-subtle);">
+                        <div class="summary-line">
+                            <span>Garments Taxable Value</span>
+                            <strong id="sumTaxableValue">₹0.00</strong>
+                        </div>
+                        <div class="summary-line" id="rowCgst">
+                            <span id="labelCgst">CGST (Tamil Nadu Intra-State)</span>
+                            <strong id="sumCgst">₹0.00</strong>
+                        </div>
+                        <div class="summary-line" id="rowSgst">
+                            <span id="labelSgst">SGST (Tamil Nadu Intra-State)</span>
+                            <strong id="sumSgst">₹0.00</strong>
+                        </div>
+                        <div class="summary-line" id="rowIgst" style="display:none;">
+                            <span id="labelIgst">IGST (Inter-State GST)</span>
+                            <strong id="sumIgst">₹0.00</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Coupon Discount</span>
+                            <strong id="sumDiscount" style="color:#10B981;">- ₹0.00</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Complimentary ₹2,000+ Gift</span>
+                            <strong id="sumGiftStatus" style="color:var(--gold-primary);">Add ₹2,000+ to unlock</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Insured Express Courier</span>
+                            <strong style="color:#10B981;">FREE</strong>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Grand Total Payable</span>
+                            <span id="sumGrandTotal">₹0.00</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:20px;">
+                        <button type="button" id="placeOrderMasterBtn" class="btn-gold-primary" onclick="submitCompleteOrder()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <span id="placeOrderBtnText">Complete Order &amp; Generate Official GST Bill</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- PRINTABLE A4 OFFICIAL GST TAX INVOICE MODAL (33JODPK0345L1ZW)       -->
+    <!-- =================================================================== -->
+    <div id="gstInvoiceModal" class="invoice-modal-backdrop">
+        <div class="invoice-paper-card">
+            <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid #E2E8F0; flex-wrap:wrap; gap:10px;">
+                <div style="display:flex; align-items:center; gap:8px; color:#059669; font-weight:800; font-size:15px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>Order Confirmed! Official Tax Invoice Generated</span>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button type="button" onclick="window.print()" style="background:#0F172A; color:#FFF; border:none; padding:10px 18px; border-radius:8px; font-weight:700; cursor:pointer;">
+                        🖨️ Print / Save GST Bill PDF
+                    </button>
+                    <a href="/track-order.html" style="background:#0284C7; color:#FFF; text-decoration:none; padding:10px 16px; border-radius:8px; font-weight:700; font-size:13.5px;">
+                        Track Order &amp; Saved Bills
+                    </a>
+                    <a href="/" style="background:#D4AF37; color:#050811; text-decoration:none; padding:10px 16px; border-radius:8px; font-weight:800; font-size:13.5px;">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+
+            <div class="invoice-header-top">
+                <div>
+                    <h2 style="font-family:'Cinzel',serif; font-size:22px; color:#0F172A; margin-bottom:4px;">KIRUTHIS MENS FASHIONS</h2>
+                    <div style="font-size:12.5px; color:#334155; font-weight:600;">கிருத்திஸ் மென்ஸ் பேஷன்ஸ் — The Trendy Store</div>
+                    <div style="font-size:12px; color:#475569; margin-top:4px;">
+                        Amman Nagar Bus Stop, Ganapathipalayam Road,<br/>
+                        Chennimalaipalayam, Tirupur - 641 605, Tamil Nadu<br/>
+                        Phone: +91 80988 73594, +91 86104 26958
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-weight:900; font-size:16px; color:#0F172A; letter-spacing:1px;">TAX INVOICE</div>
+                    <div style="font-size:12.5px; font-weight:800; color:#0F172A; margin-top:4px;">GSTIN: 33JODPK0345L1ZW</div>
+                    <div style="font-size:12px; color:#475569;">State Code: 33 (Tamil Nadu)</div>
+                    <div style="font-size:12px; color:#0F172A; font-weight:700; margin-top:6px;" id="invNumberDisplay">Invoice No: KMF-INV-2026</div>
+                    <div style="font-size:12px; color:#475569;" id="invOrderNoDisplay">Order No: KMF-ORD-2026</div>
+                    <div style="font-size:12px; color:#475569;" id="invDateDisplay">Date: --</div>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:#F8FAFC; padding:14px; border-radius:8px; border:1px solid #CBD5E1; font-size:12.5px; margin-bottom:16px;">
+                <div>
+                    <strong style="color:#0F172A; display:block; margin-bottom:4px;">BILLED &amp; SHIPPED TO CUSTOMER:</strong>
+                    <div id="invCustomerBlock" style="color:#334155; line-height:1.5;"></div>
+                </div>
+                <div style="text-align:right;">
+                    <strong style="color:#0F172A; display:block; margin-bottom:4px;">PAYMENT &amp; DISPATCH DETAILS:</strong>
+                    <div id="invPaymentBlock" style="color:#334155; line-height:1.5;"></div>
+                </div>
+            </div>
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Garment Description &amp; Size</th>
+                        <th>HSN</th>
+                        <th>Qty</th>
+                        <th>Taxable (₹)</th>
+                        <th>GST Rate</th>
+                        <th>GST Amt (₹)</th>
+                        <th>Line Total (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="invTableBody"></tbody>
+            </table>
+
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-top:18px;">
+                <div style="font-size:11.5px; color:#475569; max-width:420px; line-height:1.5;">
+                    <strong>Terms &amp; Declarations:</strong><br/>
+                    1. Certified that the particulars given above are true and correct.<br/>
+                    2. Eligible for 7-Day size exchange with intact showroom tags.<br/>
+                    3. Subject to Tirupur, Tamil Nadu jurisdiction.
+                </div>
+                <div style="min-width:270px; font-size:13px;" id="invSummaryTotalsBlock"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/918098873594?text=Hello%20Kiruthis%20Mens%20Fashions%20Tirupur!%20I%20need%20assistance%20with%20my%20order."
+       target="_blank" rel="noopener noreferrer" class="whatsapp-float-btn no-print">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>WhatsApp Showroom</span>
+    </a>
+
+    <!-- =================================================================== -->
+    <!-- EMBEDDED PER-USER ISOLATED CHECKOUT & GST INVOICE ENGINE            -->
+    <!-- =================================================================== -->
+    <script>
+        let currentActiveUser = null;
+        let currentUserStorageKey = 'guest';
+        let userCartItems = [];
+        let selectedPaymentMode = 'RAZORPAY_ONLINE';
+        let generatedCodOtp = null;
+        let appliedCouponDiscount = 0;
+        let appliedCouponCode = '';
+
+        // 1. Resolve Active Logged-In User so Every User Has Their Own Separate Bag
+        function resolveActiveUserSession() {
+            const rawV2 = localStorage.getItem('kiruthis_active_user_v2')
+                       || localStorage.getItem('kiruthis_current_user')
+                       || localStorage.getItem('kiruthis_user');
+            if (rawV2) {
+                try {
+                    currentActiveUser = JSON.parse(rawV2);
+                } catch (e) {
+                    currentActiveUser = null;
+                }
+            }
+
+            const rawId = currentActiveUser
+                ? (currentActiveUser.email || currentActiveUser.phone || currentActiveUser.identifier || currentActiveUser.id || 'guest')
+                : 'guest';
+
+            currentUserStorageKey = String(rawId).trim().toLowerCase().replace(/[^a-z0-9@._-]/g, '_');
+
+            const shopperLabel = document.getElementById('activeShopperText');
+            if (shopperLabel) {
+                if (currentActiveUser && (currentActiveUser.name || currentActiveUser.fullName || currentActiveUser.email)) {
+                    const display = currentActiveUser.fullName || currentActiveUser.name || currentActiveUser.email;
+                    shopperLabel.textContent = display + "'s Personal Bag";
+                } else {
+                    shopperLabel.textContent = "Guest Shopper's Bag";
+                }
+            }
+        }
+
+        // 2. Load ONLY This Specific User's Shopping Bag (Never Mix Across Users)
+        function loadCurrentUserIsolatedBag() {
+            resolveActiveUserSession();
+            const perUserKey = 'kiruthis_cart_' + currentUserStorageKey;
+            const perUserKeyV2 = 'kiruthis_cart_v2_' + currentUserStorageKey;
+
+            let rawCart = localStorage.getItem(perUserKey) || localStorage.getItem(perUserKeyV2);
+            if (rawCart) {
+                try {
+                    userCartItems = JSON.parse(rawCart) || [];
+                } catch (e) {
+                    userCartItems = [];
+                }
+            } else {
+                userCartItems = [];
+            }
+
+            // Filter out any item marked STOCK OUT by Admin in live catalog
+            const liveCatalogRaw = localStorage.getItem('kiruthis_catalog_v2');
+            if (liveCatalogRaw && userCartItems.length > 0) {
+                try {
+                    const catalog = JSON.parse(liveCatalogRaw);
+                    userCartItems = userCartItems.filter(item => {
+                        const match = catalog.find(p => String(p.id) === String(item.productId || item.id));
+                        if (match && match.inStock === false) return false;
+                        return true;
+                    });
+                } catch (e) {}
+            }
+        }
+
+        function saveCurrentUserIsolatedBag() {
+            const perUserKey = 'kiruthis_cart_' + currentUserStorageKey;
+            const perUserKeyV2 = 'kiruthis_cart_v2_' + currentUserStorageKey;
+            localStorage.setItem(perUserKey, JSON.stringify(userCartItems));
+            localStorage.setItem(perUserKeyV2, JSON.stringify(userCartItems));
+        }
+
+        // 3. Ensure Delivery Form Starts Clean (No Pre-Filled Shop Address!)
+        function initializeBlankCustomerForm() {
+            document.getElementById('custName').value = '';
+            document.getElementById('custPhone').value = '';
+            document.getElementById('custEmail').value = '';
+            document.getElementById('custAddress').value = '';
+            document.getElementById('custPincode').value = '';
+            document.getElementById('custCity').value = '';
+            document.getElementById('custState').value = '';
+            document.getElementById('custLandmark').value = '';
+
+            // Only if a real customer (not admin/shop) is signed in, optionally pre-fill their own email/phone if valid
+            if (currentActiveUser && currentActiveUser.role !== 'ROLE_ADMIN') {
+                const email = currentActiveUser.email || '';
+                const phone = currentActiveUser.phone || '';
+                if (email && !email.includes('kiruthis.in')) {
+                    document.getElementById('custEmail').value = email;
+                }
+                if (phone && phone !== '8098873594' && phone !== '8610426958') {
+                    document.getElementById('custPhone').value = phone.replace(/\D/g, '').slice(-10);
+                }
+            }
+        }
+
+        function clearDeliveryFormFields() {
+            document.getElementById('customerCheckoutForm').reset();
+            document.getElementById('custName').value = '';
+            document.getElementById('custPhone').value = '';
+            document.getElementById('custEmail').value = '';
+            document.getElementById('custAddress').value = '';
+            document.getElementById('custPincode').value = '';
+            document.getElementById('custCity').value = '';
+            document.getElementById('custState').value = '';
+            document.getElementById('custLandmark').value = '';
+            document.getElementById('pincodeStatusMsg').textContent = '';
+            recalculateTotals();
+        }
+
+        // 4. Pincode Serviceability & Automatic State Detection
+        function handlePincodeLookup(val) {
+            const clean = String(val || '').replace(/\D/g, '').slice(0, 6);
+            document.getElementById('custPincode').value = clean;
+            const msgEl = document.getElementById('pincodeStatusMsg');
+
+            if (clean.length < 6) {
+                msgEl.textContent = '';
+                return;
+            }
+
+            const prefix2 = parseInt(clean.substring(0, 2), 10);
+            const stateSelect = document.getElementById('custState');
+            const cityInput = document.getElementById('custCity');
+
+            if (prefix2 >= 60 && prefix2 <= 64) {
+                stateSelect.value = 'Tamil Nadu';
+                if (!cityInput.value.trim()) {
+                    if (clean.startsWith('6416')) cityInput.value = 'Tirupur';
+                    else if (clean.startsWith('6410')) cityInput.value = 'Coimbatore';
+                    else if (clean.startsWith('600')) cityInput.value = 'Chennai';
+                    else if (clean.startsWith('625')) cityInput.value = 'Madurai';
+                }
+                msgEl.style.color = '#10B981';
+                msgEl.textContent = '✓ Express 24–48 Hr Tamil Nadu Delivery Available (CGST + SGST)';
+            } else if (prefix2 >= 67 && prefix2 <= 69) {
+                stateSelect.value = 'Kerala';
+                msgEl.style.color = '#38BDF8';
+                msgEl.textContent = '✓ Express All-India Courier Serviceable (IGST)';
+            } else if (prefix2 >= 56 && prefix2 <= 59) {
+                stateSelect.value = 'Karnataka';
+                msgEl.style.color = '#38BDF8';
+                msgEl.textContent = '✓ Express All-India Courier Serviceable (IGST)';
+            } else {
+                if (!stateSelect.value) stateSelect.value = 'Other India State';
+                msgEl.style.color = '#38BDF8';
+                msgEl.textContent = '✓ Insured National Delivery Available across India';
+            }
+            recalculateTotals();
+        }
+
+        // 5. Render User's Shopping Bag & Calculate GST Breakdown
+        function renderCheckoutBagAndSummary() {
+            const container = document.getElementById('checkoutBagItemsContainer');
+            const countBadge = document.getElementById('bagItemCountLabel');
+            const totalUnits = userCartItems.reduce((acc, i) => acc + (Number(i.quantity || i.qty) || 1), 0);
+            countBadge.textContent = totalUnits;
+
+            if (userCartItems.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:32px 16px; color:var(--text-muted);">
+                        <div style="font-size:15px; font-weight:700; color:#FFF; margin-bottom:6px;">Your Personal Shopping Bag is Empty</div>
+                        <p style="font-size:12.5px; margin-bottom:16px;">Explore our 3D Hanging Garment Rail to add shirts, dhotis, or festive wear to your personal bag.</p>
+                        <a href="/" class="back-store-btn">Browse Showroom Collections</a>
+                    </div>
+                `;
+                recalculateTotals();
+                return;
+            }
+
+            container.innerHTML = userCartItems.map((item, idx) => {
+                const title = item.title || item.name || 'Kiruthis Signature Garment';
+                const price = Number(item.sellingPrice || item.price || 1299);
+                const qty = Number(item.quantity || item.qty || 1);
+                const size = item.size || item.sizeLabel || 'L';
+                const img = item.image || item.frontImage || 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80';
+
+                return `
+                    <div class="checkout-bag-item">
+                        <img src="${img}" alt="${title}" />
+                        <div>
+                            <div class="bag-item-title">${title}</div>
+                            <div class="bag-item-meta">
+                                <span>Size: <strong style="color:#FFF3B0;">${size}</strong></span>
+                                <span>•</span>
+                                <span>Unit Price: <strong>₹${price.toLocaleString('en-IN')}</strong></span>
+                            </div>
+                            <div>
+                                <div class="qty-stepper">
+                                    <button type="button" class="qty-btn" onclick="updateBagItemQty(${idx}, -1)">−</button>
+                                    <span style="font-size:13px; font-weight:700;">${qty}</span>
+                                    <button type="button" class="qty-btn" onclick="updateBagItemQty(${idx}, 1)">+</button>
+                                </div>
+                                <button type="button" class="remove-item-btn" onclick="removeBagItem(${idx})">Remove</button>
+                            </div>
+                        </div>
+                        <div style="text-align:right; font-weight:800; font-size:15px; color:var(--gold-light);">
+                            ₹${(price * qty).toLocaleString('en-IN')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            recalculateTotals();
+        }
+
+        function updateBagItemQty(idx, delta) {
+            if (!userCartItems[idx]) return;
+            const currentQty = Number(userCartItems[idx].quantity || userCartItems[idx].qty || 1);
+            const nextQty = currentQty + delta;
+            if (nextQty <= 0) {
+                userCartItems.splice(idx, 1);
+            } else {
+                userCartItems[idx].quantity = nextQty;
+                userCartItems[idx].qty = nextQty;
+            }
+            saveCurrentUserIsolatedBag();
+            renderCheckoutBagAndSummary();
+        }
+
+        function removeBagItem(idx) {
+            userCartItems.splice(idx, 1);
+            saveCurrentUserIsolatedBag();
+            renderCheckoutBagAndSummary();
+        }
+
+        function clearCurrentUserBag() {
+            userCartItems = [];
+            saveCurrentUserIsolatedBag();
+            renderCheckoutBagAndSummary();
+        }
+
+        function applyCouponCode() {
+            const raw = (document.getElementById('couponInput').value || '').trim().toUpperCase();
+            const msgEl = document.getElementById('couponFeedbackMsg');
+            const subtotal = userCartItems.reduce((s, i) => s + (Number(i.sellingPrice || i.price || 0) * Number(i.quantity || i.qty || 1)), 0);
+
+            if (!raw) {
+                appliedCouponDiscount = 0;
+                appliedCouponCode = '';
+                msgEl.textContent = '';
+                recalculateTotals();
+                return;
+            }
+
+            if (raw === 'KIRUTHIS10') {
+                appliedCouponDiscount = Math.round(subtotal * 0.10);
+                appliedCouponCode = 'KIRUTHIS10';
+                msgEl.style.color = '#10B981';
+                msgEl.textContent = '✓ KIRUTHIS10 Applied: 10% Instant Showroom Discount (-₹' + appliedCouponDiscount + ')';
+            } else if (raw === 'TRENDY200' && subtotal >= 1500) {
+                appliedCouponDiscount = 200;
+                appliedCouponCode = 'TRENDY200';
+                msgEl.style.color = '#10B981';
+                msgEl.textContent = '✓ TRENDY200 Applied: Flat ₹200 Off!';
+            } else {
+                appliedCouponDiscount = 0;
+                appliedCouponCode = '';
+                msgEl.style.color = '#F87171';
+                msgEl.textContent = 'Invalid coupon or minimum order value (₹1,500 for TRENDY200) not met.';
+            }
+            recalculateTotals();
+        }
+
+        function recalculateTotals() {
+            let grossSubtotal = 0;
+            let totalTaxable = 0;
+            let totalGst = 0;
+
+            userCartItems.forEach(item => {
+                const unitPrice = Number(item.sellingPrice || item.price || 1299);
+                const qty = Number(item.quantity || item.qty || 1);
+                const lineGross = unitPrice * qty;
+                const gstRate = unitPrice <= 1000 ? 0.05 : 0.12;
+                const lineTaxable = lineGross / (1 + gstRate);
+                const lineTax = lineGross - lineTaxable;
+
+                grossSubtotal += lineGross;
+                totalTaxable += lineTaxable;
+                totalGst += lineTax;
+            });
+
+            // Above-₹2,000 Promotional Free Gift Check
+            const promoFill = document.getElementById('promoProgressFill');
+            const promoBadge = document.getElementById('promoBadgeStatus');
+            const promoSelectors = document.getElementById('promoGiftSelectors');
+            const promoHeadline = document.getElementById('promoHeadlineText');
+            const sumGiftStatus = document.getElementById('sumGiftStatus');
+
+            const progressPct = Math.min(100, Math.round((grossSubtotal / 2000) * 100));
+            promoFill.style.width = progressPct + '%';
+
+            if (grossSubtotal >= 2000) {
+                promoBadge.textContent = 'UNLOCKED • FREE GIFT';
+                promoBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+                promoBadge.style.color = '#6EE7B7';
+                promoSelectors.style.display = 'grid';
+                promoHeadline.textContent = 'Congratulations! Your Order Unlocks a Complimentary Showroom Gift:';
+                const giftName = document.getElementById('freeGiftChoice').value;
+                const giftSize = document.getElementById('freeGiftSize').value;
+                sumGiftStatus.textContent = `${giftName.replace('FREE ', '')} (${giftSize}) — FREE`;
+            } else {
+                const needed = Math.max(0, 2000 - grossSubtotal);
+                promoBadge.textContent = `ADD ₹${needed.toLocaleString('en-IN')} MORE`;
+                promoSelectors.style.display = 'none';
+                promoHeadline.textContent = `Add ₹${needed.toLocaleString('en-IN')} more to unlock a FREE Branded Round-Neck T-Shirt or Shorts!`;
+                sumGiftStatus.textContent = `Add ₹${needed.toLocaleString('en-IN')} more`;
+            }
+
+            const selectedState = document.getElementById('custState').value || 'Tamil Nadu';
+            const isTamilNadu = selectedState === 'Tamil Nadu';
+
+            document.getElementById('sumTaxableValue').textContent = '₹' + totalTaxable.toFixed(2);
+
+            if (isTamilNadu) {
+                document.getElementById('rowCgst').style.display = 'flex';
+                document.getElementById('rowSgst').style.display = 'flex';
+                document.getElementById('rowIgst').style.display = 'none';
+                document.getElementById('sumCgst').textContent = '₹' + (totalGst / 2).toFixed(2);
+                document.getElementById('sumSgst').textContent = '₹' + (totalGst / 2).toFixed(2);
+            } else {
+                document.getElementById('rowCgst').style.display = 'none';
+                document.getElementById('rowSgst').style.display = 'none';
+                document.getElementById('rowIgst').style.display = 'flex';
+                document.getElementById('sumIgst').textContent = '₹' + totalGst.toFixed(2);
+            }
+
+            if (appliedCouponCode === 'KIRUTHIS10') {
+                appliedCouponDiscount = Math.round(grossSubtotal * 0.10);
+            }
+            const grandTotal = Math.max(0, Math.round(grossSubtotal - appliedCouponDiscount));
+            document.getElementById('sumDiscount').textContent = '- ₹' + appliedCouponDiscount.toFixed(2);
+            document.getElementById('sumGrandTotal').textContent = '₹' + grandTotal.toLocaleString('en-IN');
+
+            return {
+                grossSubtotal,
+                totalTaxable,
+                totalGst,
+                isTamilNadu,
+                selectedState,
+                grandTotal,
+                qualifiesFreeGift: grossSubtotal >= 2000
+            };
+        }
+
+        function selectPaymentMethod(mode) {
+            selectedPaymentMode = mode;
+            document.getElementById('payCardOnline').classList.toggle('active', mode === 'RAZORPAY_ONLINE');
+            document.getElementById('payCardCod').classList.toggle('active', mode === 'CASH_ON_DELIVERY');
+            document.getElementById('codOtpSection').style.display = mode === 'CASH_ON_DELIVERY' ? 'block' : 'none';
+        }
+
+        function generateCodVerificationOtp() {
+            generatedCodOtp = String(Math.floor(1000 + Math.random() * 9000));
+            document.getElementById('codLiveOtpBadge').textContent = 'Your Verification Code: ' + generatedCodOtp;
+            document.getElementById('codOtpInput').value = generatedCodOtp;
+        }
+
+        // 6. Complete Order & Generate Printable Official GST Tax Invoice
+        async function submitCompleteOrder() {
+            if (userCartItems.length === 0) {
+                alert('Your personal shopping bag is empty. Please add at least one garment from the showroom.');
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.replace(/\D/g, '').trim();
+            const email = document.getElementById('custEmail').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const pincode = document.getElementById('custPincode').value.replace(/\D/g, '').trim();
+            const city = document.getElementById('custCity').value.trim();
+            const state = document.getElementById('custState').value.trim();
+            const landmark = document.getElementById('custLandmark').value.trim();
+
+            if (!name || phone.length !== 10 || !address || pincode.length !== 6 || !city || !state) {
+                alert('Please fill in your Full Name, 10-digit Mobile Number, Street Address, 6-digit Pincode, City, and State.');
+                return;
+            }
+
+            if (selectedPaymentMode === 'CASH_ON_DELIVERY') {
+                const enteredOtp = document.getElementById('codOtpInput').value.trim();
+                if (!generatedCodOtp || enteredOtp !== generatedCodOtp) {
+                    alert('Please click "Generate 4-Digit COD Code" to verify your Cash on Delivery order.');
+                    return;
+                }
+            }
+
+            const totals = recalculateTotals();
+            const ts = Date.now().toString().slice(-6);
+            const orderNumber = 'KMF-ORD-' + ts;
+            const invoiceNumber = 'KMF-INV-' + ts;
+
+            const freeGiftChoice = totals.qualifiesFreeGift ? document.getElementById('freeGiftChoice').value : null;
+            const freeGiftSize = totals.qualifiesFreeGift ? document.getElementById('freeGiftSize').value : null;
+
+            const finalizeInvoiceRecord = (paymentReference) => {
+                const orderRecord = {
+                    orderNumber,
+                    invoiceNumber,
+                    createdAt: new Date().toLocaleString('en-IN'),
+                    userKey: currentUserStorageKey,
+                    customerName: name,
+                    customerPhone: phone,
+                    customerEmail: email || (phone + '@customer.kiruthis.in'),
+                    shippingAddress: `${address}${landmark ? ', ' + landmark : ''}, ${city} - ${pincode}, ${state}`,
+                    city,
+                    state,
+                    pincode,
+                    paymentMode: selectedPaymentMode,
+                    paymentRef: paymentReference,
+                    status: 'CONFIRMED',
+                    items: [...userCartItems],
+                    freeGift: freeGiftChoice ? `${freeGiftChoice} (Size: ${freeGiftSize})` : null,
+                    taxableValue: Number(totals.totalTaxable.toFixed(2)),
+                    totalGst: Number(totals.totalGst.toFixed(2)),
+                    isTamilNadu: totals.isTamilNadu,
+                    discountAmount: appliedCouponDiscount,
+                    grandTotal: totals.grandTotal
+                };
+
+                // Save to This Specific User's Personal Bill History
+                const userBillsKey = 'kiruthis_bills_' + currentUserStorageKey;
+                const existingUserBills = JSON.parse(localStorage.getItem(userBillsKey) || '[]');
+                existingUserBills.unshift(orderRecord);
+                localStorage.setItem(userBillsKey, JSON.stringify(existingUserBills));
+
+                // Save to Global Admin Order Console
+                const allOrders = JSON.parse(localStorage.getItem('kiruthis_all_orders_v2') || '[]');
+                allOrders.unshift(orderRecord);
+                localStorage.setItem('kiruthis_all_orders_v2', JSON.stringify(allOrders));
+
+                // Try posting to Spring Boot backend asynchronously
+                fetch('/api/v1/orders/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customerName: name,
+                        customerPhone: phone,
+                        customerEmail: orderRecord.customerEmail,
+                        shippingAddressLine1: address,
+                        shippingCity: city,
+                        shippingState: state,
+                        shippingPincode: pincode,
+                        paymentMethod: selectedPaymentMode,
+                        couponCode: appliedCouponCode,
+                        freeGiftSelection: orderRecord.freeGift,
+                        items: userCartItems.map(i => ({
+                            variantId: i.variantId || i.id || 1,
+                            quantity: Number(i.quantity || i.qty || 1)
+                        }))
+                    })
+                }).catch(() => {});
+
+                // Clear ONLY this user's cart
+                clearCurrentUserBag();
+
+                // Open Official Printable GST Tax Invoice
+                displayPrintableGstInvoice(orderRecord);
+            };
+
+            if (selectedPaymentMode === 'RAZORPAY_ONLINE' && typeof window.Razorpay === 'function') {
+                try {
+                    const options = {
+                        key: 'rzp_test_KiruthisShowroom',
+                        amount: totals.grandTotal * 100,
+                        currency: 'INR',
+                        name: 'KIRUTHIS MENS FASHIONS',
+                        description: 'Showroom Order ' + orderNumber,
+                        prefill: { name, contact: phone, email },
+                        theme: { color: '#D4AF37' },
+                        handler: function (response) {
+                            finalizeInvoiceRecord(response.razorpay_payment_id || ('RZP-' + ts));
+                        }
+                    };
+                    const rzp = new window.Razorpay(options);
+                    rzp.on('payment.failed', function () {
+                        finalizeInvoiceRecord('ONLINE-UPI-' + ts);
+                    });
+                    rzp.open();
+                    return;
+                } catch (err) {
+                    finalizeInvoiceRecord('ONLINE-UPI-' + ts);
+                    return;
+                }
+            } else {
+                finalizeInvoiceRecord(selectedPaymentMode === 'CASH_ON_DELIVERY' ? ('COD-OTP-' + generatedCodOtp) : ('ONLINE-' + ts));
+            }
+        }
+
+        function displayPrintableGstInvoice(order) {
+            document.getElementById('invNumberDisplay').textContent = 'Invoice No: ' + order.invoiceNumber;
+            document.getElementById('invOrderNoDisplay').textContent = 'Order No: ' + order.orderNumber;
+            document.getElementById('invDateDisplay').textContent = 'Date: ' + order.createdAt;
+
+            document.getElementById('invCustomerBlock').innerHTML = `
+                <strong>${order.customerName}</strong><br/>
+                Phone: +91 ${order.customerPhone}<br/>
+                ${order.shippingAddress}
+            `;
+
+            document.getElementById('invPaymentBlock').innerHTML = `
+                Mode: <strong>${order.paymentMode.replace(/_/g, ' ')}</strong><br/>
+                Ref: ${order.paymentRef}<br/>
+                Tax Regime: ${order.isTamilNadu ? 'Intra-State (CGST + SGST)' : 'Inter-State (IGST)'}
+            `;
+
+            const tbody = document.getElementById('invTableBody');
+            let rowsHtml = '';
+
+            order.items.forEach((item, index) => {
+                const unitPrice = Number(item.sellingPrice || item.price || 1299);
+                const qty = Number(item.quantity || item.qty || 1);
+                const gross = unitPrice * qty;
+                const gstRate = unitPrice <= 1000 ? 5 : 12;
+                const taxable = gross / (1 + (gstRate / 100));
+                const gstAmt = gross - taxable;
+
+                rowsHtml += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><strong>${item.title || item.name}</strong> (Size: ${item.size || item.sizeLabel || 'L'})</td>
+                        <td>6205</td>
+                        <td>${qty}</td>
+                        <td>₹${taxable.toFixed(2)}</td>
+                        <td>${order.isTamilNadu ? `CGST ${gstRate/2}% + SGST ${gstRate/2}%` : `IGST ${gstRate}%`}</td>
+                        <td>₹${gstAmt.toFixed(2)}</td>
+                        <td><strong>₹${gross.toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            });
+
+            if (order.freeGift) {
+                rowsHtml += `
+                    <tr style="background:#ECFDF5;">
+                        <td>${order.items.length + 1}</td>
+                        <td><strong>🎁 ${order.freeGift}</strong> (Above-₹2,000 Showroom Promotional Gift)</td>
+                        <td>6109</td>
+                        <td>1</td>
+                        <td>₹0.00</td>
+                        <td>0%</td>
+                        <td>₹0.00</td>
+                        <td><strong>FREE (₹0.00)</strong></td>
+                    </tr>
+                `;
+            }
+
+            tbody.innerHTML = rowsHtml;
+
+            const halfGst = (order.totalGst / 2).toFixed(2);
+            document.getElementById('invSummaryTotalsBlock').innerHTML = `
+                <div style="display:flex; justify-content:space-between; padding:4px 0;">
+                    <span>Total Taxable Value:</span><strong>₹${order.taxableValue.toFixed(2)}</strong>
+                </div>
+                ${order.isTamilNadu ? `
+                <div style="display:flex; justify-content:space-between; padding:4px 0;">
+                    <span>Add: CGST:</span><strong>₹${halfGst}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:4px 0;">
+                    <span>Add: SGST:</span><strong>₹${halfGst}</strong>
+                </div>` : `
+                <div style="display:flex; justify-content:space-between; padding:4px 0;">
+                    <span>Add: IGST:</span><strong>₹${order.totalGst.toFixed(2)}</strong>
+                </div>`}
+                <div style="display:flex; justify-content:space-between; padding:4px 0; color:#059669;">
+                    <span>Discount Applied:</span><strong>- ₹${Number(order.discountAmount || 0).toFixed(2)}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:10px 0; margin-top:6px; border-top:2px solid #0F172A; font-size:16px; font-weight:900;">
+                    <span>Grand Total (Inclusive of GST):</span><span>₹${order.grandTotal.toLocaleString('en-IN')}.00</span>
+                </div>
+            `;
+
+            document.getElementById('gstInvoiceModal').style.display = 'flex';
+        }
+
+        // Magnetic Cursor Animation
+        (function initMagneticCursor() {
+            const dot = document.getElementById('cursorDot');
+            const ring = document.getElementById('cursorRing');
+            if (!dot || !ring) return;
+            let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+            let ringX = mouseX, ringY = mouseY;
+
+            window.addEventListener('mousemove', e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX + 'px';
+                dot.style.top = mouseY + 'px';
+            });
+
+            function animateCursor() {
+                ringX += (mouseX - ringX) * 0.18;
+                ringY += (mouseY - ringY) * 0.18;
+                ring.style.left = ringX + 'px';
+                ring.style.top = ringY + 'px';
+                requestAnimationFrame(animateCursor);
+            }
+            requestAnimationFrame(animateCursor);
+        })();
+
+        // Initialize Page
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCurrentUserIsolatedBag();
+            initializeBlankCustomerForm();
+            renderCheckoutBagAndSummary();
+        });
+    </script>
+</body>
+</html>

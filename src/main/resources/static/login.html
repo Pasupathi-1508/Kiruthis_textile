@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Sign In &amp; Registration | KIRUTHIS MENS FASHIONS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px;">
+    <div style="max-width:460px; width:100%; border:1px solid var(--border-glass); border-radius:24px; background:rgba(15,20,32,0.92); padding:36px; box-shadow:0 25px 70px rgba(0,0,0,0.75);">
+        <div style="text-align:center; margin-bottom:24px;">
+            <span class="curtain-badge">CUSTOMER ACCOUNT PORTAL</span>
+            <h1 style="font-family:'Cinzel',serif; font-size:24px; color:var(--gold-light);">KIRUTHIS MENS FASHIONS</h1>
+            <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">Sign in to track orders, save addresses &amp; download GST bills</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px;">
+            <button id="tab-login" class="view-pill active" onclick="switchAuthTab('LOGIN')">Sign In</button>
+            <button id="tab-register" class="view-pill" onclick="switchAuthTab('REGISTER')">Create Account</button>
+        </div>
+
+        <div id="auth-msg" style="display:none; padding:10px 14px; border-radius:10px; font-size:13px; margin-bottom:14px;"></div>
+
+        <!-- Customer Sign In Form -->
+        <form id="customer-login-form" class="checkout-form" onsubmit="submitCustomerLogin(event)">
+            <input type="text" id="login-id" placeholder="10-Digit Mobile Number or Email *" required />
+            <input type="password" id="login-pass" placeholder="Password *" required />
+            <button type="submit" class="btn-gold-luxury full-width" style="margin-top:8px;">Sign In to Showroom</button>
+        </form>
+
+        <!-- Customer Registration Form -->
+        <form id="customer-register-form" class="checkout-form" style="display:none;" onsubmit="submitCustomerRegister(event)">
+            <input type="text" id="reg-name" placeholder="Full Name *" required />
+            <input type="tel" id="reg-phone" placeholder="10-Digit Mobile Number *" pattern="[0-9]{10}" required />
+            <input type="email" id="reg-email" placeholder="Email Address (Optional)" />
+            <input type="password" id="reg-pass" placeholder="Create Password (min 4 chars) *" required />
+            <button type="submit" class="btn-gold-luxury full-width" style="margin-top:8px;">Create Customer Account</button>
+        </form>
+
+        <div style="text-align:center; margin-top:20px; font-size:13px;">
+            <a href="/" style="color:var(--gold-light); text-decoration:none;">← Return to 3D Hanging-Rack Showroom</a>
+        </div>
+    </div>
+
+    <script>
+        function switchAuthTab(mode) {
+            const isLogin = mode === 'LOGIN';
+            document.getElementById('tab-login').classList.toggle('active', isLogin);
+            document.getElementById('tab-register').classList.toggle('active', !isLogin);
+            document.getElementById('customer-login-form').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('customer-register-form').style.display = isLogin ? 'none' : 'block';
+        }
+
+        async function submitCustomerLogin(e) {
+            e.preventDefault();
+            const res = await fetch('/api/v1/auth/customer/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    identifier: document.getElementById('login-id').value,
+                    password: document.getElementById('login-pass').value
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMsg(data.error || 'Login failed', true);
+            localStorage.setItem('kiruthis_customer_session', JSON.stringify(data));
+            localStorage.setItem('kiruthis_last_phone', data.phone);
+            window.location.href = '/';
+        }
+
+        async function submitCustomerRegister(e) {
+            e.preventDefault();
+            const res = await fetch('/api/v1/auth/customer/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullName: document.getElementById('reg-name').value,
+                    phone: document.getElementById('reg-phone').value,
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-pass').value
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMsg(data.error || 'Registration failed', true);
+            localStorage.setItem('kiruthis_customer_session', JSON.stringify(data));
+            localStorage.setItem('kiruthis_last_phone', data.phone);
+            window.location.href = '/';
+        }
+
+        function showMsg(text, isErr) {
+            const box = document.getElementById('auth-msg');
+            box.style.display = 'block';
+            box.style.background = isErr ? 'rgba(239,68,68,0.18)' : 'rgba(16,185,129,0.18)';
+            box.style.color = isErr ? '#fca5a5' : '#6ee7b7';
+            box.textContent = text;
+        }
+    </script>
+</body>
+</html>

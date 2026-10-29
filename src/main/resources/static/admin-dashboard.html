@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Command Center | KIRUTHIS MENS FASHIONS — Tirupur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-obsidian: #05070B;
+            --bg-velvet: #0B101B;
+            --bg-card: rgba(15, 22, 38, 0.88);
+            --gold-primary: #D4AF37;
+            --gold-light: #FDE68A;
+            --gold-dark: #9A7B1C;
+            --text-ivory: #F8FAFC;
+            --text-muted: #94A3B8;
+            --emerald: #10B981;
+            --crimson: #EF4444;
+            --border-gold: rgba(212, 175, 55, 0.34);
+            --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%, #17233E 0%, #090D16 55%, #05070B 100%);
+            color: var(--text-ivory);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* TOP LUXURY ADMIN HEADER */
+        .admin-top-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(6, 9, 16, 0.94);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 14px 28px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75);
+        }
+
+        .admin-header-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-brand-cluster {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-logo-shell {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(8, 12, 24, 0.99));
+            border: 1.5px solid rgba(212, 175, 55, 0.58);
+            border-radius: 14px;
+            padding: 4px 12px 4px 6px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), inset 0 0 16px rgba(212, 175, 55, 0.14);
+        }
+
+        .admin-logo-svg {
+            width: 210px;
+            height: 56px;
+            display: block;
+        }
+
+        .admin-title-block .eyebrow {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .admin-title-block h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(18px, 2vw, 24px);
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 0.04em;
+        }
+
+        .admin-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-admin-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.22s var(--ease-luxury);
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold-light);
+        }
+
+        .btn-admin-nav:hover {
+            background: rgba(212, 175, 55, 0.24);
+            transform: translateY(-1px);
+            border-color: var(--gold-light);
+        }
+
+        .btn-admin-nav.emerald {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #A7F3D0;
+        }
+
+        .btn-admin-nav.emerald:hover {
+            background: rgba(16, 185, 129, 0.28);
+        }
+
+        .btn-admin-nav.crimson {
+            background: rgba(239, 68, 68, 0.14);
+            border-color: rgba(239, 68, 68, 0.45);
+            color: #FCA5A5;
+        }
+
+        .btn-admin-nav.crimson:hover {
+            background: rgba(239, 68, 68, 0.28);
+        }
+
+        /* MAIN CONTAINER */
+        .admin-main-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 26px 28px 80px;
+        }
+
+        /* TOAST NOTIFICATION BANNER */
+        .admin-toast {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.22), rgba(212, 175, 55, 0.22));
+            border: 1.5px solid rgba(16, 185, 129, 0.65);
+            color: #ECFDF5;
+            padding: 13px 18px;
+            border-radius: 14px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 6 LIVE KPI CARDS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(145deg, rgba(19, 27, 46, 0.92), rgba(10, 14, 25, 0.96));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .kpi-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #FFFFFF;
+            display: block;
+        }
+
+        .kpi-value.gold { color: var(--gold-light); }
+        .kpi-value.emerald { color: #34D399; }
+        .kpi-value.crimson { color: #F87171; }
+
+        .kpi-sub {
+            font-size: 11.5px;
+            color: #64748B;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* NAVIGATION TABS */
+        .admin-tabs-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.24);
+        }
+
+        .admin-tab-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s var(--ease-luxury);
+        }
+
+        .admin-tab-pill:hover {
+            color: var(--text-ivory);
+            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .admin-tab-pill.active {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+            color: #07090E;
+            border-color: var(--gold-light);
+            font-weight: 800;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* LUXURY PANEL CARD */
+        .admin-panel-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 22px;
+            padding: 26px 28px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+        }
+
+        .panel-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .panel-header-row h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            color: var(--gold-light);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-header-row p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* LUXURY FORM GRID (NO WHITE UNSTYLED INPUTS!) */
+        .luxury-form-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 26px;
+            align-items: start;
+        }
+
+          @media (max-width: 980px) {
+            .luxury-form-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .luxury-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .field-box {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field-box.span-2 {
+            grid-column: 1 / -1;
+        }
+
+        .field-box label {
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--gold-light);
+            text-transform: uppercase;
+        }
+
+        .field-box input,
+        .field-box select,
+        .field-box textarea {
+            width: 100%;
+            background: rgba(8, 12, 22, 0.92);
+            border: 1.5px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #F8FAFC;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .field-box input:focus,
+        .field-box select:focus,
+        .field-box textarea:focus {
+            border-color: var(--gold-light);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        /* LIVE 3D HANGER PREVIEW CARD IN ADMIN */
+        .live-preview-card {
+            background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15), rgba(9, 13, 24, 0.95));
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .preview-dual-imgs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .preview-img-slot {
+            background: #080C16;
+            border: 1px solid rgba(212, 175, 55, 0.38);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 170px;
+        }
+
+        .preview-img-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-img-slot span {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(5, 7, 11, 0.88);
+            color: var(--gold-light);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-gold-submit {
+            margin-top: 18px;
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+            color: #07090E;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 28px rgba(212, 175, 55, 0.38);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .btn-gold-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px rgba(212, 175, 55, 0.55);
+        }
+
+        /* TABLES & INLINE CONTROLS */
+        .admin-search-bar {
+            min-width: 280px;
+            background: rgba(8, 12, 22, 0.92);
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border-radius: 999px;
+            padding: 10px 16px;
+            color: #FFFFFF;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid rgba(212, 175, 55, 0.26);
+            border-radius: 16px;
+            background: rgba(7, 10, 18, 0.85);
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .luxury-table th,
+        .luxury-table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            vertical-align: middle;
+        }
+
+        .luxury-table th {
+            background: rgba(212, 175, 55, 0.13);
+            color: var(--gold-light);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .luxury-table tr:hover td {
+            background: rgba(212, 175, 55, 0.04);
+        }
+
+        .inline-num-input,
+        .inline-select {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            color: #F8FAFC;
+            border-radius: 8px;
+            padding: 6px 9px;
+            font-weight: 700;
+            font-size: 12.5px;
+            width: 92px;
+        }
+
+        .inline-select {
+            width: 155px;
+        }
+
+        .tbl-btn {
+            padding: 6px 11px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-right: 4px;
+            transition: all 0.18s ease;
+        }
+
+        .tbl-btn:hover {
+            background: rgba(212, 175, 55, 0.32);
+        }
+
+        .tbl-btn.save {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.55);
+            color: #A7F3D0;
+        }
+
+        .tbl-btn.save:hover {
+            background: rgba(16, 185, 129, 0.35);
+        }
+
+        /* PRINTABLE GST INVOICE MODAL */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 6, 12, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .invoice-modal-card {
+            background: #FFFFFF;
+            color: #0F172A;
+            border-radius: 18px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 24px;
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.9);
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #adminInvoiceModal, #adminInvoicePrintArea, #adminInvoicePrintArea * {
+                visibility: visible;
+            }
+            #adminInvoiceModal {
+                position: absolute;
+                inset: 0;
+                background: #FFFFFF;
+            }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- REUSABLE KIRUTHIS OFFICIAL VECTOR BRAND EMBLEM -->
+    <svg width="0" height="0" style="position:absolute;visibility:hidden;" aria-hidden="true">
+        <defs>
+            <linearGradient id="kmfGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFF3B0" />
+                <stop offset="35%" stop-color="#E6C35C" />
+                <stop offset="70%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#8A640F" />
+            </linearGradient>
+            <linearGradient id="kmfVelGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#9A7211" />
+                <stop offset="50%" stop-color="#FDE68A" />
+                <stop offset="85%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#B45309" />
+            </linearGradient>
+            <linearGradient id="kmfPeacockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38BDF8" />
+                <stop offset="45%" stop-color="#0284C7" />
+                <stop offset="100%" stop-color="#1E3A8A" />
+            </linearGradient>
+            <linearGradient id="kmfRoyalBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#60A5FA" />
+                <stop offset="50%" stop-color="#2563EB" />
+                <stop offset="100%" stop-color="#1D4ED8" />
+            </linearGradient>
+            <symbol id="kiruthisOfficialLogo" viewBox="0 0 430 118">
+                <g transform="translate(6, 6)">
+                    <path d="M44 52 C18 46, 4 26, 16 10 C28 -2, 48 12, 48 34" fill="none" stroke="url(#kmfPeacockGrad)" stroke-width="3.2" stroke-linecap="round"/>
+                    <path d="M40 62 C10 60, -2 38, 8 20 C18 6, 42 20, 44 42" fill="none" stroke="#0EA5E9" stroke-width="2.8" stroke-linecap="round"/>
+                    <path d="M38 74 C10 78, -2 58, 6 40 C14 26, 36 34, 40 54" fill="none" stroke="#1D4ED8" stroke-width="2.8" stroke-linecap="round"/>
+                    <path d="M40 86 C16 94, 4 80, 12 62 C18 48, 36 52, 40 68" fill="none" stroke="url(#kmfGoldGrad)" stroke-width="2.4" stroke-linecap="round"/>
+                    <circle cx="20" cy="18" r="5.5" fill="url(#kmfGoldGrad)" /><circle cx="20" cy="18" r="2.8" fill="#1E3A8A" />
+                    <circle cx="12" cy="34" r="5" fill="url(#kmfGoldGrad)" /><circle cx="12" cy="34" r="2.5" fill="#0284C7" />
+                    <circle cx="11" cy="52" r="5" fill="url(#kmfGoldGrad)" /><circle cx="11" cy="52" r="2.5" fill="#1E3A8A" />
+                    <circle cx="16" cy="70" r="4.5" fill="url(#kmfGoldGrad)" /><circle cx="16" cy="70" r="2.2" fill="#0284C7" />
+                    <path d="M46 16 C54 6, 68 8, 70 18 C72 26, 58 34, 52 46 C46 58, 44 74, 38 92" fill="none" stroke="url(#kmfPeacockGrad)" stroke-width="4.5" stroke-linecap="round"/>
+                    <path d="M64 8 L68 1 M68 10 L74 3 M60 9 L62 1" stroke="url(#kmfGoldGrad)" stroke-width="1.8" stroke-linecap="round"/>
+                    <circle cx="66" cy="15" r="1.6" fill="#FFF3B0"/>
+                    <path d="M70 16 L77 18 L70 20 Z" fill="url(#kmfGoldGrad)"/>
+                </g>
+                <text x="78" y="54" font-family="'Cinzel', Georgia, serif" font-weight="900" font-size="47" fill="url(#kmfRoyalBlue)" letter-spacing="1">K</text>
+                <g transform="translate(119, 10)">
+                    <polygon points="2,2 14,12 6,19 0,9" fill="url(#kmfGoldGrad)" stroke="#FFF3B0" stroke-width="0.7"/>
+                    <polygon points="26,2 14,12 22,19 28,9" fill="url(#kmfGoldGrad)" stroke="#FFF3B0" stroke-width="0.7"/>
+                    <polygon points="10,12 18,12 16,20 12,20" fill="#B45309" stroke="url(#kmfGoldGrad)" stroke-width="0.8"/>
+                    <polygon points="12,20 16,20 19,39 14,45 9,39" fill="url(#kmfGoldGrad)" stroke="#FFF3B0" stroke-width="0.7"/>
+                </g>
+                <text x="150" y="54" font-family="'Cinzel', Georgia, serif" font-weight="900" font-size="47" fill="url(#kmfRoyalBlue)" letter-spacing="2">RUTHIS</text>
+                <text x="80" y="81" font-family="'Cinzel', Georgia, serif" font-weight="800" font-size="23.5" fill="url(#kmfGoldGrad)" letter-spacing="5.5">MENS FASHIONS</text>
+                <text x="80" y="103" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="13.5" fill="#60A5FA" letter-spacing="0.8">The Trendy Store</text>
+                <g transform="translate(206, 90)">
+                    <rect x="0" y="6.5" width="155" height="3.5" rx="1.75" fill="url(#kmfVelGrad)" />
+                    <circle cx="2" cy="8.2" r="3.2" fill="url(#kmfGoldGrad)" />
+                    <rect x="152" y="3.5" width="5" height="9.5" rx="2" fill="url(#kmfGoldGrad)" />
+                    <path d="M157 8.2 C166 -2, 184 -2, 198 8.2 C184 18.4, 166 18.4, 157 8.2 Z" fill="url(#kmfVelGrad)" stroke="#FFF3B0" stroke-width="0.9"/>
+                    <line x1="173" y1="4.2" x2="173" y2="12.2" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+                    <line x1="177.5" y1="3.2" x2="177.5" y2="13.2" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+                    <line x1="182" y1="4.2" x2="182" y2="12.2" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+                    <circle cx="177.5" cy="8.2" r="1.7" fill="#DC2626" />
+                </g>
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- 1. STICKY LUXURY ADMIN COMMAND HEADER -->
+    <header class="admin-top-header">
+        <div class="admin-header-inner">
+            <div class="admin-brand-cluster">
+                <a href="/" class="admin-logo-shell" title="Return to 3D Storefront">
+                    <svg class="admin-logo-svg" viewBox="0 0 430 118" role="img" aria-label="Kiruthis Mens Fashions">
+                        <use href="#kiruthisOfficialLogo"></use>
+                    </svg>
+                </a>
+                <div class="admin-title-block">
+                    <span class="eyebrow">SHOWROOM OWNER &amp; MYSQL DATABASE COMMAND CENTER • TIRUPUR</span>
+                    <h1>KIRUTHIS MENS FASHIONS — 2026 ADMIN CONSOLE</h1>
+                </div>
+            </div>
+
+            <div class="admin-top-actions">
+                <a href="/" class="btn-admin-nav">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span>View Live 3D Storefront</span>
+                </a>
+                <button type="button" class="btn-admin-nav emerald" onclick="switchToCustomerTesting()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/>
+                    </svg>
+                    <span>Switch to Customer Mode</span>
+                </button>
+                <button type="button" class="btn-admin-nav crimson" onclick="logoutAdminSession()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Logout Admin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. MAIN WORKSPACE -->
+    <main class="admin-main-container">
+        <!-- Live Toast Alert -->
+        <div id="adminToastBanner" class="admin-toast"></div>
+
+        <!-- 6 LIVE SHOWROOM KPI CARDS -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>TOTAL REVENUE</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FDE68A" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <strong class="kpi-value gold" id="kpiRevenue">₹0</strong>
+                <span class="kpi-sub">GST Billed &amp; Verified Orders</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>ACTIVE COLLECTIONS</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+                </div>
+                <strong class="kpi-value" id="kpiProducts">0</strong>
+                <span class="kpi-sub">Hanging on 3D Anchor Rail</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>SKU VARIANTS</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </div>
+                <strong class="kpi-value" id="kpiVariants">0</strong>
+                <span class="kpi-sub">Sizes M, L, XL, XXL</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>TOTAL STOCK UNITS</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <strong class="kpi-value emerald" id="kpiStockUnits">0</strong>
+                <span class="kpi-sub">Ready in Tirupur Showroom</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>LOW STOCK ALERTS</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <strong class="kpi-value crimson" id="kpiLowStock">0</strong>
+                <span class="kpi-sub">SKUs with ≤ 10 Units</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>CUSTOMERS &amp; ORDERS</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FDE68A" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <strong class="kpi-value" id="kpiCustomersOrders">0 / 0</strong>
+                <span class="kpi-sub">Registered / Placed Orders</span>
+            </div>
+        </section>
+
+        <!-- 4 LUXURY NAVIGATION TABS (100% VECTOR SVG ICONS, ZERO EMOJIS) -->
+        <nav class="admin-tabs-row">
+            <button type="button" class="admin-tab-pill active" id="tabBtnLaunch" onclick="selectAdminSection('LAUNCH')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span>Launch New Collection / Garment</span>
+            </button>
+            <button type="button" class="admin-tab-pill" id="tabBtnStock" onclick="selectAdminSection('STOCK')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+                <span>Stock &amp; Price Manager</span>
+            </button>
+            <button type="button" class="admin-tab-pill" id="tabBtnOrders" onclick="selectAdminSection('ORDERS')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16l4-2 4 2 4-2 4 2V8z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/>
+                </svg>
+                <span>Orders, Shipments &amp; GST Bills</span>
+            </button>
+            <button type="button" class="admin-tab-pill" id="tabBtnCustomers" onclick="selectAdminSection('CUSTOMERS')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Customers &amp; MySQL Database</span>
+            </button>
+        </nav>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 1: LAUNCH NEW GARMENT COLLECTION TO 3D HANGING RACK     -->
+        <!-- =============================================================== -->
+        <section id="secLaunch" class="admin-panel-card">
+            <div class="panel-header-row">
+                <div>
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        <span>Add New Garment Collection to 3D Motorized Hanging Anchor</span>
+                    </h2>
+                    <p>Every garment created here is saved into MySQL (<code>products</code>, <code>product_variants</code>, <code>product_images</code>) and hangs on the 3D Showroom Rail with Front &amp; Back 180° flip views.</p>
+                </div>
+                <button type="button" class="btn-admin-nav" onclick="autoFillNewCollectionDemo()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    <span>Auto-Fill Sample 2026 Collection</span>
+                </button>
+            </div>
+
+            <form id="createGarmentForm" onsubmit="handleCreateNewGarment(event)">
+                <div class="luxury-form-layout">
+                    <div class="luxury-form-grid">
+                        <div class="field-box span-2">
+                            <label>Garment Collection Title *</label>
+                            <input type="text" id="prodTitle" required value="Royal Peacock Gold-Zari Linen Wedding Shirt" placeholder="e.g. Royal Giza Cotton Formal Shirt" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Brand / Edition *</label>
+                            <input type="text" id="prodBrand" required value="EETHMAN — 2026 Signature" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Showroom Anchor Rail Segment *</label>
+                            <select id="prodSegment">
+                                <option value="MENS">MENS Anchor Rail</option>
+                                <option value="WOMENS">WOMENS Silk &amp; Ethnic Rail</option>
+                                <option value="KIDS">KIDS Festive Rail</option>
+                            </select>
+                        </div>
+
+                        <div class="field-box">
+                            <label>Fabric &amp; Weave Composition *</label>
+                            <input type="text" id="prodFabric" required value="100% Giza Combed Cotton with Zari Border" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Fabric Weight (GSM) *</label>
+                            <input type="number" id="prodGsm" required value="185" min="90" max="450" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Fit Profile *</label>
+                            <select id="prodFit">
+                                <option value="REGULAR_FIT">REGULAR FIT</option>
+                                <option value="SLIM_FIT">SLIM FIT</option>
+                                <option value="TAILORED_FIT">TAILORED FIT</option>
+                            </select>
+                        </div>
+
+                        <div class="field-box">
+                            <label>Primary Color Name *</label>
+                            <input type="text" id="prodColorName" required value="Midnight Emerald" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Color Swatch Hex *</label>
+                            <input type="text" id="prodColorHex" required value="#064E3B" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Retail MRP (₹) *</label>
+                            <input type="number" id="prodMrp" required value="1999" min="199" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Showroom Selling Price (₹ incl. GST) *</label>
+                            <input type="number" id="prodSellingPrice" required value="1299" min="99" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Initial Stock Per Size (M, L, XL, XXL) *</label>
+                            <input type="number" id="prodStock" required value="35" min="1" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Quick Studio Lookbook Preset</label>
+                            <select id="prodPhotoPreset" onchange="applyLookbookPreset(this.value)">
+                                <option value="1">Preset 1 — Royal Indigo Executive Shirt</option>
+                                <option value="2">Preset 2 — Crimson Silk Muhurtham Shirt</option>
+                                <option value="3">Preset 3 — Emerald Gold Clubwear Shirt</option>
+                                <option value="4">Preset 4 — Champagne Linen Mandarin Shirt</option>
+                            </select>
+                        </div>
+
+                        <div class="field-box">
+                            <label>Front View Image URL *</label>
+                            <input type="url" id="prodFrontImg" required value="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=900&q=85" oninput="syncLivePreviewCard()" />
+                        </div>
+
+                        <div class="field-box">
+                            <label>Back View Image URL (For 180° 3D Flip) *</label>
+                            <input type="url" id="prodBackImg" required value="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=85" oninput="syncLivePreviewCard()" />
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: LIVE 3D HANGER PREVIEW -->
+                    <div class="live-preview-card">
+                        <span class="eyebrow" style="font-size:10px;letter-spacing:0.14em;color:var(--gold-light);font-weight:800;">LIVE 180° 3D HANGER PREVIEW</span>
+                        <div class="preview-dual-imgs">
+                            <div class="preview-img-slot">
+                                <img id="prevFrontImgEl" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=900&q=85" alt="Front Preview" />
+                                <span>FRONT SIDE</span>
+                            </div>
+                            <div class="preview-img-slot">
+                                <img id="prevBackImgEl" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=85" alt="Back Preview" />
+                                <span>BACK 180° SIDE</span>
+                            </div>
+                        </div>
+                        <p style="font-size:12px;color:#94A3B8;line-height:1.45;margin-bottom:8px;">
+                            Sizes <strong>M, L, XL, XXL</strong> will be auto-generated with GST compliance.
+                        </p>
+                        <button type="submit" class="btn-gold-submit" id="publishCollectionBtn">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                                <path d="M12 5v14"/><path d="M5 12h14"/>
+                            </svg>
+                            <span>Publish Collection to MySQL &amp; 3D Showroom Rail</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 2: LIVE STOCK & PRICE MANAGER                           -->
+        <!-- =============================================================== -->
+        <section id="secStock" class="admin-panel-card" style="display:none;">
+            <div class="panel-header-row">
+                <div>
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                        <span>Live Variant Stock &amp; Price Matrix (MySQL Synchronized)</span>
+                    </h2>
+                    <p>Adjust stock quantities (+10 / -5) or edit Selling Price &amp; MRP. Changes immediately update the 3D Showroom Anchor Rail.</p>
+                </div>
+                <input type="text" id="stockSearchInput" class="admin-search-bar" placeholder="Search by SKU, Garment Title, Color or Size..." oninput="renderInventoryRows()" />
+            </div>
+
+            <div class="table-wrap">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th>SKU Code</th>
+                            <th>Garment Collection</th>
+                            <th>Segment</th>
+                            <th>Color &amp; Size</th>
+                            <th>Selling Price (₹)</th>
+                            <th>MRP (₹)</th>
+                            <th>Live Stock</th>
+                            <th>Quick Adjust &amp; Save</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 3: ORDERS, SHIPMENTS & GST TAX BILLS                    -->
+        <!-- =============================================================== -->
+        <section id="secOrders" class="admin-panel-card" style="display:none;">
+            <div class="panel-header-row">
+                <div>
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16l4-2 4 2 4-2 4 2V8z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/>
+                        </svg>
+                        <span>Customer Orders, Courier Dispatch &amp; GST Tax Invoices (33JODPK0345L1ZW)</span>
+                    </h2>
+                    <p>Advance fulfillment status or click <strong>View / Print GST Bill</strong> on any order.</p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th>Order &amp; Invoice #</th>
+                            <th>Customer &amp; Phone</th>
+                            <th>Delivery Address</th>
+                            <th>Payment Mode</th>
+                            <th>Grand Total (₹)</th>
+                            <th>Fulfillment Status</th>
+                            <th>Official GST Bill</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 4: CUSTOMERS & MYSQL DATABASE DIRECTORY                 -->
+        <!-- =============================================================== -->
+        <section id="secCustomers" class="admin-panel-card" style="display:none;">
+            <div class="panel-header-row">
+                <div>
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                        </svg>
+                        <span>Registered Customers &amp; MySQL Users Table</span>
+                    </h2>
+                    <p>All customer and admin accounts stored in <code>kiruthis_fashions_db.users</code>.</p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Full Name</th>
+                            <th>Mobile Number</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- PRINTABLE GST INVOICE MODAL -->
+    <div id="adminInvoiceModal" class="modal-backdrop">
+        <div class="invoice-modal-card">
+            <div class="no-print" style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #E2E8F0;">
+                <strong style="font-size:15px;">Official GST Tax Invoice Preview</strong>
+                <div style="display:flex;gap:10px;">
+                    <button type="button" class="tbl-btn save" style="color:#065F46;" onclick="window.print()">Print / Save PDF</button>
+                    <button type="button" class="tbl-btn" style="color:#0F172A;" onclick="document.getElementById('adminInvoiceModal').style.display='none'">Close ✕</button>
+                </div>
+            </div>
+            <div id="adminInvoicePrintArea"></div>
+        </div>
+    </div>
+
+    <script>
+        let adminInventory = [];
+        let adminCustomers = [];
+        let adminOrders = [];
+
+        const LOOKBOOK_PRESETS = {
+            1: {
+                front: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=900&q=85',
+                back:  'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=85'
+            },
+            2: {
+                front: 'https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=900&q=85',
+                back:  'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=900&q=85'
+            },
+            3: {
+                front: 'https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=900&q=85',
+                back:  'https://images.unsplash.com/photo-1602810316693-3667c854239a?auto=format&fit=crop&w=900&q=85'
+            },
+            4: {
+                front: 'https://images.unsplash.com/photo-1589310243389-96a5483213a8?auto=format&fit=crop&w=900&q=85',
+                back:  'https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?auto=format&fit=crop&w=900&q=85'
+            }
+        };
+
+        function showToast(htmlMsg) {
+            const box = document.getElementById('adminToastBanner');
+            box.innerHTML = `<span>${htmlMsg}</span><button type="button" class="tbl-btn" onclick="this.parentElement.style.display='none'">✕</button>`;
+            box.style.display = 'flex';
+            clearTimeout(window._admToastTimer);
+            window._admToastTimer = setTimeout(() => { box.style.display = 'none'; }, 6000);
+        }
+
+        function selectAdminSection(sec) {
+            const map = {
+                LAUNCH: ['tabBtnLaunch', 'secLaunch'],
+                STOCK: ['tabBtnStock', 'secStock'],
+                ORDERS: ['tabBtnOrders', 'secOrders'],
+                CUSTOMERS: ['tabBtnCustomers', 'secCustomers']
+            };
+            Object.keys(map).forEach(k => {
+                const [btnId, secId] = map[k];
+                document.getElementById(btnId).classList.toggle('active', k === sec);
+                document.getElementById(secId).style.display = k === sec ? 'block' : 'none';
+            });
+        }
+
+        function applyLookbookPreset(key) {
+            const p = LOOKBOOK_PRESETS[key] || LOOKBOOK_PRESETS[1];
+            document.getElementById('prodFrontImg').value = p.front;
+            document.getElementById('prodBackImg').value = p.back;
+            syncLivePreviewCard();
+        }
+
+        function syncLivePreviewCard() {
+            const f = document.getElementById('prodFrontImg').value.trim();
+            const b = document.getElementById('prodBackImg').value.trim();
+            if (f) document.getElementById('prevFrontImgEl').src = f;
+            if (b) document.getElementById('prevBackImgEl').src = b;
+        }
+
+        function autoFillNewCollectionDemo() {
+            document.getElementById('prodTitle').value = 'Imperial Kanchipuram Gold-Zari Silk Wedding Shirt';
+            document.getElementById('prodBrand').value = 'KIRUTHIS ROYAL 2026';
+            document.getElementById('prodSegment').value = 'MENS';
+            document.getElementById('prodFabric').value = '100% Pure Mulberry Silk with 24K Gold Zari Border';
+            document.getElementById('prodGsm').value = '195';
+            document.getElementById('prodColorName').value = 'Royal Crimson & Gold';
+            document.getElementById('prodColorHex').value = '#881337';
+            document.getElementById('prodMrp').value = '2499';
+            document.getElementById('prodSellingPrice').value = '1599';
+            document.getElementById('prodStock').value = '40';
+            applyLookbookPreset(2);
+            showToast('Sample 2026 Silk Wedding Collection pre-filled! Click <strong>"Publish Collection to MySQL & 3D Showroom Rail"</strong> below.');
+        }
+
+        async function loadAdminOverviewAndOrders() {
+            try {
+                const res = await fetch('/api/v1/admin-portal/overview');
+                if (res.ok) {
+                    const data = await res.json();
+                    adminInventory = data.inventory || [];
+                    adminCustomers = data.customers || [];
+
+                    document.getElementById('kpiRevenue').textContent = '₹' + Number(data.totalRevenue || 0).toLocaleString('en-IN');
+                    document.getElementById('kpiProducts').textContent = String(data.totalProducts || 0);
+                    document.getElementById('kpiVariants').textContent = String(data.totalVariants || 0);
+                    document.getElementById('kpiStockUnits').textContent = Number(data.totalStockUnits || 0).toLocaleString('en-IN');
+                    document.getElementById('kpiLowStock').textContent = String(data.lowStockCount || 0);
+                    document.getElementById('kpiCustomersOrders').textContent = `${data.totalCustomers || 0} / ${data.totalOrders || 0}`;
+                }
+            } catch (e) {
+                console.warn('Overview fetch error:', e);
+            }
+
+            try {
+                const ordRes = await fetch('/api/v1/orders/all');
+                if (ordRes.ok) {
+                    adminOrders = await ordRes.json();
+                }
+            } catch (e) {}
+
+            renderInventoryRows();
+            renderOrdersRows();
+            renderCustomersRows();
+        }
+
+        async function handleCreateNewGarment(e) {
+            e.preventDefault();
+            const btn = document.getElementById('publishCollectionBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Publishing to MySQL &amp; 3D Anchor Rail...</span>';
+
+            const payload = {
+                title: document.getElementById('prodTitle').value.trim(),
+                brandEdition: document.getElementById('prodBrand').value.trim(),
+                segment: document.getElementById('prodSegment').value,
+                fabricComposition: document.getElementById('prodFabric').value.trim(),
+                fabricGsm: Number(document.getElementById('prodGsm').value || 180),
+                fitType: document.getElementById('prodFit').value,
+                colorName: document.getElementById('prodColorName').value.trim(),
+                colorHex: document.getElementById('prodColorHex').value.trim(),
+                mrpPrice: Number(document.getElementById('prodMrp').value || 1999),
+                sellingPrice: Number(document.getElementById('prodSellingPrice').value || 1299),
+                stockQuantity: Number(document.getElementById('prodStock').value || 30),
+                frontImageUrl: document.getElementById('prodFrontImg').value.trim(),
+                backImageUrl: document.getElementById('prodBackImg').value.trim()
+            };
+
+            try {
+                const res = await fetch('/api/v1/admin-portal/products/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to create garment');
+
+                await loadAdminOverviewAndOrders();
+                selectAdminSection('STOCK');
+                showToast(`Published <strong>"${payload.title}"</strong> (SKU Prefix: <code>${data.skuPrefix}</code>) to MySQL! <a href="/" style="color:#FDE68A;margin-left:10px;font-weight:800;">View on Live 3D Anchor Rail →</a>`);
+            } catch (err) {
+                showToast(`Error: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Publish Collection to MySQL &amp; 3D Showroom Rail</span>';
+            }
+        }
+
+        function renderInventoryRows() {
+            const tbody = document.getElementById('inventoryTableBody');
+            const q = (document.getElementById('stockSearchInput')?.value || '').trim().toLowerCase();
+
+            const filtered = adminInventory.filter(v => {
+                if (!q) return true;
+                return `${v.sku} ${v.productTitle} ${v.segment} ${v.color} ${v.size}`.toLowerCase().includes(q);
+            });
+
+            if (!filtered.length) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:24px;color:#94A3B8;">No matching SKU variants found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(v => {
+                const stock = Number(v.stockQuantity || 0);
+                const stockColor = stock <= 10 ? '#F87171' : '#34D399';
+                return `
+                    <tr>
+                        <td><strong style="color:#FDE68A;">${v.sku}</strong></td>
+                        <td><strong>${v.productTitle}</strong></td>
+                        <td><span style="padding:3px 9px;border-radius:999px;background:rgba(212,175,55,0.15);color:#FDE68A;font-size:11px;font-weight:800;">${v.segment}</span></td>
+                        <td>${v.color || 'Standard'} • <strong>${v.size}</strong></td>
+                        <td><input type="number" class="inline-num-input" id="sell_${v.variantId}" value="${Number(v.sellingPrice || 999)}" /></td>
+                        <td><input type="number" class="inline-num-input" id="mrp_${v.variantId}" value="${Number(v.mrp || 1499)}" /></td>
+                        <td><input type="number" class="inline-num-input" id="stk_${v.variantId}" value="${stock}" style="color:${stockColor};border-color:${stockColor};" /></td>
+                        <td>
+                            <button type="button" class="tbl-btn" onclick="stepVariantStock(${v.variantId}, 10)">+10</button>
+                            <button type="button" class="tbl-btn" onclick="stepVariantStock(${v.variantId}, -5)">-5</button>
+                            <button type="button" class="tbl-btn save" onclick="saveVariantToMySQL(${v.variantId})">Save</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function stepVariantStock(variantId, delta) {
+            const el = document.getElementById('stk_' + variantId);
+            if (el) {
+                el.value = Math.max(0, Number(el.value || 0) + delta);
+                saveVariantToMySQL(variantId);
+            }
+        }
+
+        async function saveVariantToMySQL(variantId) {
+            const sellingPrice = Number(document.getElementById('sell_' + variantId).value || 999);
+            const mrpPrice = Number(document.getElementById('mrp_' + variantId).value || 1499);
+            const stockQuantity = Math.max(0, Number(document.getElementById('stk_' + variantId).value || 0));
+
+            try {
+                const res = await fetch(`/api/v1/admin-portal/variants/${variantId}/update`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sellingPrice, mrpPrice, stockQuantity })
+                });
+                const data = await res.json();
+                showToast(`${data.message || 'Variant updated!'} (Stock: <strong>${stockQuantity}</strong>, Price: <strong>₹${sellingPrice}</strong>)`);
+                loadAdminOverviewAndOrders();
+            } catch (e) {
+                showToast('Saved locally.');
+            }
+        }
+
+        function renderOrdersRows() {
+            const tbody = document.getElementById('ordersTableBody');
+            if (!adminOrders.length) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:28px;color:#94A3B8;">No customer orders placed yet. Click <strong>"Switch to Customer Mode"</strong> in the top-right to place a test order!</td></tr>`;
+                return;
+            }
+
+            const statuses = ['CONFIRMED', 'PACKED', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+            tbody.innerHTML = adminOrders.map((o, idx) => `
+                <tr>
+                    <td>
+                        <strong style="color:#FDE68A;">${o.orderNumber}</strong><br/>
+                        <small style="color:#64748B;">${o.invoiceNumber || ''}</small>
+                    </td>
+                    <td>
+                        <strong>${o.customerName}</strong><br/>
+                        <small style="color:#94A3B8;">+91 ${o.customerPhone}</small>
+                    </td>
+                    <td>${o.shippingAddressLine1 || ''}, ${o.shippingCity || 'Tirupur'} - ${o.shippingPincode || '641605'}</td>
+                    <td><span style="padding:3px 9px;border-radius:999px;background:rgba(16,185,129,0.16);color:#A7F3D0;font-size:11px;font-weight:800;">${o.paymentMode}</span></td>
+                    <td><strong style="color:#FDE68A;">₹${Number(o.grandTotal || 0).toLocaleString('en-IN')}</strong></td>
+                    <td>
+                        <select class="inline-select" onchange="updateOrderStatus('${o.orderNumber}', this.value)">
+                            ${statuses.map(st => `<option value="${st}" ${st === o.orderStatus ? 'selected' : ''}>${st}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="tbl-btn save" onclick="openAdminGstInvoice(${idx})">View / Print GST Bill</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function updateOrderStatus(orderNumber, status) {
+            try {
+                await fetch(`/api/v1/admin/orders/${orderNumber}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                showToast(`Order <strong>#${orderNumber}</strong> status updated to <strong>${status}</strong> in MySQL.`);
+                loadAdminOverviewAndOrders();
+            } catch (e) {}
+        }
+
+        function openAdminGstInvoice(idx) {
+            const inv = adminOrders[idx];
+            if (!inv) return;
+            const rows = (inv.items || []).map((item, i) => {
+                const price = Number(item.unitSellingPrice || item.sellingPrice || 0);
+                const qty = Number(item.quantity || 1);
+                return `
+                    <tr>
+                        <td style="padding:8px;border:1px solid #CBD5E1;">${i + 1}</td>
+                        <td style="padding:8px;border:1px solid #CBD5E1;"><strong>${item.productTitle || item.title}</strong> (${item.sizeLabel || 'Std'})</td>
+                        <td style="padding:8px;border:1px solid #CBD5E1;text-align:center;">${qty}</td>
+                        <td style="padding:8px;border:1px solid #CBD5E1;text-align:right;">₹${price.toFixed(2)}</td>
+                        <td style="padding:8px;border:1px solid #CBD5E1;text-align:right;"><strong>₹${(price * qty).toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('adminInvoicePrintArea').innerHTML = `
+                <div style="padding:16px;font-family:'Plus Jakarta Sans',sans-serif;color:#0F172A;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0F172A;padding-bottom:14px;">
+                        <div>
+                            <div style="background:#0A0F1D;padding:6px 12px;border-radius:10px;display:inline-block;margin-bottom:6px;">
+                                <svg width="190" height="52" viewBox="0 0 430 118"><use href="#kiruthisOfficialLogo"></use></svg>
+                            </div>
+                            <p style="margin:2px 0;font-size:12px;">Amman Nagar Bus Stop, Ganapathipalayam Road, Chennimalaipalayam, Tirupur - 641605</p>
+                            <p style="margin:2px 0;font-size:12px;"><strong>GSTIN:</strong> 33JODPK0345L1ZW | <strong>Phone:</strong> +91 80988 73594</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <h3 style="margin:0;color:#B45309;">OFFICIAL GST TAX INVOICE</h3>
+                            <p style="margin:4px 0;font-size:13px;"><strong>Invoice No:</strong> ${inv.invoiceNumber || inv.orderNumber}</p>
+                            <p style="margin:4px 0;font-size:12px;"><strong>Order No:</strong> ${inv.orderNumber}</p>
+                        </div>
+                    </div>
+                    <div style="margin:14px 0;font-size:13px;">
+                        <strong>Customer:</strong> ${inv.customerName} (+91 ${inv.customerPhone})<br/>
+                        <strong>Delivery Address:</strong> ${inv.shippingAddressLine1 || ''}, ${inv.shippingCity || 'Tirupur'} - ${inv.shippingPincode || '641605'}
+                    </div>
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;">
+                        <thead>
+                            <tr style="background:#F1F5F9;">
+                                <th style="padding:8px;border:1px solid #CBD5E1;">#</th>
+                                <th style="padding:8px;border:1px solid #CBD5E1;text-align:left;">Garment Description</th>
+                                <th style="padding:8px;border:1px solid #CBD5E1;">Qty</th>
+                                <th style="padding:8px;border:1px solid #CBD5E1;text-align:right;">Rate</th>
+                                <th style="padding:8px;border:1px solid #CBD5E1;text-align:right;">Total (Incl. GST)</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                    <div style="text-align:right;margin-top:16px;font-size:18px;font-weight:800;">
+                        Grand Total: ₹${Number(inv.grandTotal || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    </div>
+                </div>
+            `;
+            document.getElementById('adminInvoiceModal').style.display = 'flex';
+        }
+
+        function renderCustomersRows() {
+            const tbody = document.getElementById('customersTableBody');
+            if (!adminCustomers.length) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:#94A3B8;">No customers found.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = adminCustomers.map(c => `
+                <tr>
+                    <td>#${c.id}</td>
+                    <td><strong>${c.fullName}</strong></td>
+                    <td>+91 ${c.phone || '8098873594'}</td>
+                    <td>${c.email || '—'}</td>
+                    <td><span style="padding:3px 9px;border-radius:999px;background:${c.role === 'ROLE_ADMIN' ? 'rgba(212,175,55,0.2)' : 'rgba(59,130,246,0.18)'};color:${c.role === 'ROLE_ADMIN' ? '#FDE68A' : '#93C5FD'};font-size:11px;font-weight:800;">${c.role}</span></td>
+                    <td>${c.city || 'Tirupur'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function switchToCustomerTesting() {
+            localStorage.removeItem('kiruthis_user');
+            fetch('/api/v1/auth/logout', { method: 'POST' }).finally(() => {
+                window.location.href = '/?testMode=customer';
+            });
+        }
+
+        function logoutAdminSession() {
+            localStorage.removeItem('kiruthis_user');
+            fetch('/api/v1/auth/logout', { method: 'POST' }).finally(() => {
+                window.location.href = '/';
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadAdminOverviewAndOrders);
+    </script>
+</body>
+</html>
